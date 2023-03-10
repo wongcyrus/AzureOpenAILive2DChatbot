@@ -37,3 +37,6 @@ window.onresize = () => {
 (window as any).startVoiceConversation = (ip: string, language: string, data: Blob) => {
   LAppDelegate.getInstance().startVoiceConversation(ip, language, data);
 };
+(window as any).startTextConversation = (ip: string, language: string, message: string) => {
+  LAppDelegate.getInstance().startTextConversation(ip, language, message);
+};

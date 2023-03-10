@@ -52,7 +52,7 @@ export class AzureAi {
       return prompt;
     }
 
-    const systemMessage = "<|im_start|>system\n{'What can I help you?'}\n<|im_end|>"
+    const systemMessage = "<|im_start|>system\n I am assistant. \n<|im_end|>"
 
     messages.push({ sender: ip, text: prompt });
 
@@ -82,7 +82,7 @@ export class AzureAi {
 
     const answer: string = json.choices[0].text
     LAppPal.printMessage(answer);
-    (document.getElementById("reply") as any).value = answer;
+    $("#reply").val(answer).trigger('change');
     (document.getElementById("conversations") as any).value = JSON.stringify(messages);
 
     return answer;
@@ -139,6 +139,8 @@ export class AzureAi {
       body: wav
     });
     const json = await response.json();
+    $("#query").val(json.DisplayText).trigger('change');
+
     return json.DisplayText;
   }
 }
