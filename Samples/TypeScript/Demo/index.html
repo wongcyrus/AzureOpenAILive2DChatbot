@@ -75,10 +75,11 @@
 </head>
 
 <body>
-  <input type="hidden" id="config">
-  <input type="hidden" id="conversations">
+
   <div id="labelDiv">.
     <div class="row">
+      <input type="hidden" id="config">
+      <input type="hidden" id="conversations">
       <div class="column">
         <label for="configFileInput">Config File (<a href="config.json" target="_blank">Sample</a>):</label>
         <input type="file" id="configFileInput"><br />
@@ -239,7 +240,11 @@
   </div>
   <audio id="voice" />
   <script>
-    $(document).ready(() => {
+    $(document).ready(async () => {
+
+      const { ip } = await $.getJSON("https://api.ipify.org?format=json");
+      document.cookie = "ip=" + ip;
+
       const configFileInput = $("#configFileInput");
       configFileInput.change(() => {
         if (configFileInput.prop('files').length > 0) {
@@ -263,7 +268,7 @@
           if (e.data.size > 0) recordedChunks.push(e.data);
         });
         mediaRecorder.addEventListener('stop', () => {
-          startVoiceConversation($("#language").val(),
+          startVoiceConversation(ip, $("#language").val(),
             new Blob(recordedChunks, { type: 'audio/webm' }));
         });
         mediaRecorder.start();

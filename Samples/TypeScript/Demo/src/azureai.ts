@@ -11,6 +11,8 @@ export class AzureAi {
 
   private _inProgress: boolean;
 
+
+
   constructor() {
     const config = (document.getElementById("config") as any).value;
 
@@ -25,25 +27,46 @@ export class AzureAi {
     this._inProgress = false;
   }
 
-  async getOpenAiAnswer(prompt: string) {
+  async getOpenAiAnswer(ip: string, prompt: string) {
 
     if (this._openaiurl === undefined || this._inProgress || prompt === "") return "";
 
     this._inProgress = true;
 
+    interface Message {
+      sender: string;
+      text: string;
+    }
+
     const conversations = (document.getElementById("conversations") as any).value;
+
+    const messages = conversations ? <Message[]>JSON.parse(conversations) : [];
     LAppPal.printMessage(prompt);
 
-    const conversation = conversations + "\n\n## " + prompt
+    const createPrompt = (system_message: string, messages: Array<Message>) => {
+      let prompt = system_message;
+      for (const message of messages) {
+        prompt += `\n<|im_start|>${message.sender}\n${message.text}\n<|im_end|>`
+      }
+      prompt += "\n<|im_start|>assistant\n"
+      return prompt;
+    }
+
+    const systemMessage = "<|im_start|>system\n{'What can I help you?'}\n<|im_end|>"
+
+    messages.push({ sender: "user", text: prompt });
+
+    // const conversation = conversations + "\n\n## " + prompt
     const m = {
-      "prompt": `##${conversation}\n\n`,
-      "max_tokens": 300,
-      "temperature": 0,
+      "prompt": createPrompt(systemMessage, messages),
+      "max_tokens": 800,
+      "temperature": 0.7,
       "frequency_penalty": 0,
       "presence_penalty": 0,
-      "top_p": 1,
-      "stop": ["#", ";"]
-    }
+      "top_p": 0.95,
+      "stop": ["<|im_end|>"]
+    };
+
 
     const repsonse = await fetch(this._openaiurl, {
       method: 'POST',
@@ -54,10 +77,13 @@ export class AzureAi {
       body: JSON.stringify(m)
     });
     const json = await repsonse.json();
+
+    messages.push({ "sender": "assistant", "text": json.choices[0].text })
+
     const answer: string = json.choices[0].text
     LAppPal.printMessage(answer);
     (document.getElementById("reply") as any).value = answer;
-    (document.getElementById("conversations") as any).value = conversations + "\n\n" + answer;
+    (document.getElementById("conversations") as any).value = JSON.stringify(messages);
 
     return answer;
   }

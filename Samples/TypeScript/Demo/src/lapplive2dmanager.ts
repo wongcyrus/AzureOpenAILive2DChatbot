@@ -119,8 +119,11 @@ export class LAppLive2DManager {
 
         const prompt: string = (document.getElementById("prompt") as any).value;
         const language: string = (document.getElementById("language") as any).value;
+
+        const ip = ($ as any).cookie('ip');
+
         const azureAi = new AzureAi();
-        azureAi.getOpenAiAnswer(prompt)
+        azureAi.getOpenAiAnswer(ip, prompt)
           .then(ans => azureAi.getSpeechUrl(language, ans))
           .then(url => {
             this._models.at(i)._wavFileHandler.loadWavFile(url);
@@ -137,7 +140,7 @@ export class LAppLive2DManager {
     }
   }
 
-  public startVoiceConversation(language: string, data: Blob) {
+  public startVoiceConversation(ip: string, language: string, data: Blob) {
     for (let i = 0; i < this._models.getSize(); i++) {
       if (LAppDefine.DebugLogEnable) {
         LAppPal.printMessage(
@@ -148,7 +151,7 @@ export class LAppLive2DManager {
         azureAi.getTextFromSpeech(language, data)
           .then(text => {
             (document.getElementById("prompt") as any).value = text;
-            return azureAi.getOpenAiAnswer(text);
+            return azureAi.getOpenAiAnswer(ip, text);
           }).then(ans => azureAi.getSpeechUrl(language, ans))
           .then(url => {
             this._models.at(i)._wavFileHandler.loadWavFile(url);
