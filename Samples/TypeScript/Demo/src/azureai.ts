@@ -139,6 +139,8 @@ export class AzureAi {
       body: wav
     });
     const json = await response.json();
+    $("#query").val(json.DisplayText).trigger('change');
+
     return json.DisplayText;
   }
 }

@@ -175,7 +175,6 @@ export class LAppLive2DManager {
 
         azureAi.getTextFromSpeech(language, data)
           .then(text => {
-            (document.getElementById("prompt") as any).value = text;
             return azureAi.getOpenAiAnswer(ip, text);
           }).then(ans => azureAi.getSpeechUrl(language, ans))
           .then(url => {

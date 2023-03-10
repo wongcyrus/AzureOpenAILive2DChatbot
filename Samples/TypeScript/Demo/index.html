@@ -24,6 +24,7 @@
     <div class="leftColumn">.
       <input type="hidden" id="config">
       <input type="hidden" id="conversations">
+      <input type="hidden" id="query" value="">
       <input type="hidden" id="reply" value="">
       <br />
       <label for="configFileInput">Config File (<a href="config.json" target="_blank">Sample</a>):</label>
@@ -293,9 +294,22 @@
         startTextConversation(ip, $("#language").val(), msgText);
       }
 
+      //Handle query
+      const $query = $('#query');
+      $query.on('change', () => {
+        appendMessage(PERSON_NAME, PERSON_IMG, "right", $query.val());
+      });
+
       const $reply = $('#reply');
+      let value = "";
       $reply.on('change', () => {
-        appendMessage(BOT_NAME, BOT_IMG, "left", $reply.val());
+        newValue = $reply.val();
+        console.log(newValue);
+        console.log(value);
+        if (newValue && value !== newValue) {
+          appendMessage(BOT_NAME, BOT_IMG, "left", newValue);
+          value = newValue;
+        }
       });
 
       // Utils
@@ -306,12 +320,7 @@
       function formatDate(date) {
         const h = "0" + date.getHours();
         const m = "0" + date.getMinutes();
-
         return `${h.slice(-2)}:${m.slice(-2)}`;
-      }
-
-      function random(min, max) {
-        return Math.floor(Math.random() * (max - min) + min);
       }
 
     });
