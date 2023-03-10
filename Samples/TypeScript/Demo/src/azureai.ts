@@ -82,7 +82,7 @@ export class AzureAi {
 
     const answer: string = json.choices[0].text
     LAppPal.printMessage(answer);
-    (document.getElementById("reply") as any).value = answer;
+    $("#reply").val(answer).trigger('change');
     (document.getElementById("conversations") as any).value = JSON.stringify(messages);
 
     return answer;

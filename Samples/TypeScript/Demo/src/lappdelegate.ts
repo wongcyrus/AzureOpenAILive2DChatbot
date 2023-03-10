@@ -77,7 +77,8 @@ export class LAppDelegate {
     }
 
     // キャンバスを DOM に追加
-    document.body.appendChild(canvas);
+    // document.body.appendChild(canvas);
+    document.getElementById("character").appendChild(canvas);
 
     if (!frameBuffer) {
       frameBuffer = gl.getParameter(gl.FRAMEBUFFER_BINDING);
@@ -260,6 +261,12 @@ export class LAppDelegate {
     LAppLive2DManager.getInstance().startVoiceConversation(ip, language, data);
   }
 
+  public startTextConversation(ip: string, language: string, message: string) {
+    LAppLive2DManager.getInstance().startTextConversation(ip, language, message);
+  }
+
+
+
   /**
    * コンストラクタ
    */
@@ -298,7 +305,7 @@ export class LAppDelegate {
    * Resize the canvas to fill the screen.
    */
   private _resizeCanvas(): void {
-    canvas.width = window.innerWidth;
+    canvas.width = window.innerWidth / 3 * 2;
     canvas.height = window.innerHeight;
   }
 
