@@ -52,7 +52,7 @@ export class AzureAi {
       return prompt;
     }
 
-    const systemMessage = "<|im_start|>system\n{'What can I help you?'}\n<|im_end|>"
+    const systemMessage = "<|im_start|>system\n I am assistant. \n<|im_end|>"
 
     messages.push({ sender: ip, text: prompt });
 
