@@ -54,7 +54,7 @@ export class AzureAi {
 
     const systemMessage = "<|im_start|>system\n{'What can I help you?'}\n<|im_end|>"
 
-    messages.push({ sender: "user", text: prompt });
+    messages.push({ sender: ip, text: prompt });
 
     // const conversation = conversations + "\n\n## " + prompt
     const m = {
