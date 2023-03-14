@@ -12,9 +12,20 @@
   <script src="Core/live2dcubismcore.js"></script>
   <!-- Build script -->
   <script src="./dist/bundle.js"></script>
-
   <script src="https://code.jquery.com/jquery-3.6.3.min.js"
     integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+  <!--  Markdown     -->
+  <link href="https://cdn.staticfile.org/github-markdown-css/5.2.0/github-markdown-light.min.css" rel="stylesheet">
+  <link href="https://cdn.staticfile.org/highlight.js/11.7.0/styles/github.min.css" rel="stylesheet">
+  <script src="https://cdn.staticfile.org/markdown-it/13.0.1/markdown-it.min.js"></script>
+  <script src="https://cdn.staticfile.org/highlight.js/11.7.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.staticfile.org/KaTeX/0.16.4/katex.min.css">
+  <script src="https://cdn.staticfile.org/KaTeX/0.16.4/katex.min.js"></script>
+  <link rel="stylesheet" href="https://npm.elemecdn.com/markdown-it-texmath@1.0.0/css/texmath.css">
+  <script src="https://npm.elemecdn.com/markdown-it-texmath@1.0.0/texmath.js"></script>
+  <!--  Logic     -->
+  <script src="./main.js"></script>
 
 </head>
 
@@ -189,6 +200,10 @@
           <button type="submit" class="msger-send-btn">Send</button>
           <button id="recButton" class="recrodingButton"></button>
         </form>
+
+        <label for="awesome-chatgpt-prompts">Act as:</label>
+        <select name="awesome-chatgpt-prompts" id="awesome-chatgpt-prompts">
+        </select>
       </section>
       <audio id="voice" />
     </div>
@@ -196,137 +211,6 @@
       <div id="character"></div>
     </div>
   </div>
-
-  <script>
-    $(document).ready(async () => {
-      const { ip } = await $.getJSON("https://api.ipify.org?format=json");
-      document.cookie = "ip=" + ip;
-
-      const configFileInput = $("#configFileInput");
-      configFileInput.change(() => {
-        if (configFileInput.prop('files').length > 0) {
-          const reader = new FileReader();
-          reader.addEventListener('load', () => {
-            console.log("Config loaded!");
-            $("#config").val(reader.result);
-          });
-          reader.readAsText(configFileInput.prop('files')[0]);
-        }
-        this.value = null;
-      });
-
-      const options = { mimeType: 'audio/webm;' };
-      let recordedChunks = [];
-      let mediaRecorder;
-
-      const handleSuccess = stream => {
-        mediaRecorder = new MediaRecorder(stream, options);
-        mediaRecorder.addEventListener('dataavailable', e => {
-          if (e.data.size > 0) recordedChunks.push(e.data);
-        });
-        mediaRecorder.addEventListener('stop', () => {
-          startVoiceConversation(ip, $("#language").val(),
-            new Blob(recordedChunks, { type: 'audio/webm' }));
-        });
-        mediaRecorder.start();
-      };
-
-      $('#recButton').addClass("notRec");
-      $('#recButton').click(() => {
-        if ($('#recButton').hasClass('notRec')) {
-          $('#recButton').removeClass("notRec");
-          $('#recButton').addClass("Rec");
-          navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-            .then(handleSuccess);
-
-        }
-        else {
-          $('#recButton').removeClass("Rec");
-          $('#recButton').addClass("notRec");
-          mediaRecorder.stop();
-          recordedChunks = [];
-        }
-      });
-
-      const msgerForm = get(".msger-inputarea");
-      const msgerInput = get(".msger-input");
-      const msgerChat = get(".msger-chat");
-
-
-      // Icons made by Freepik from www.flaticon.com
-      const BOT_IMG = "images/bot.png";
-      const PERSON_IMG = "images/user.png";
-      const BOT_NAME = "BOT";
-      const PERSON_NAME = "You";
-
-      msgerForm.addEventListener("submit", event => {
-        event.preventDefault();
-        const msgText = msgerInput.value;
-        if (!msgText) return;
-        appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText);
-        botResponse();
-        msgerInput.value = "";
-      });
-
-      function appendMessage(name, img, side, text) {
-        //   Simple solution for small apps
-        const msgHTML = `
-    <div class="msg ${side}-msg">
-      <div class="msg-img" style="background-image: url(${img})"></div>
-
-      <div class="msg-bubble">
-        <div class="msg-info">
-          <div class="msg-info-name">${name}</div>
-          <div class="msg-info-time">${formatDate(new Date())}</div>
-        </div>
-
-        <div class="msg-text">${text}</div>
-      </div>
-    </div>
-  `;
-
-        msgerChat.insertAdjacentHTML("beforeend", msgHTML);
-        msgerChat.scrollTop += 500;
-      }
-
-      function botResponse() {
-        const msgText = msgerInput.value;
-        startTextConversation(ip, $("#language").val(), msgText);
-      }
-
-      //Handle query
-      const $query = $('#query');
-      $query.on('change', () => {
-        appendMessage(PERSON_NAME, PERSON_IMG, "right", $query.val());
-      });
-
-      const $reply = $('#reply');
-      let value = "";
-      $reply.on('change', () => {
-        newValue = $reply.val();
-        console.log(newValue);
-        console.log(value);
-        if (newValue && value !== newValue) {
-          appendMessage(BOT_NAME, BOT_IMG, "left", newValue);
-          value = newValue;
-        }
-      });
-
-      // Utils
-      function get(selector, root = document) {
-        return root.querySelector(selector);
-      }
-
-      function formatDate(date) {
-        const h = "0" + date.getHours();
-        const m = "0" + date.getMinutes();
-        return `${h.slice(-2)}:${m.slice(-2)}`;
-      }
-
-    });
-
-
-  </script>
 </body>
 
 </html>
