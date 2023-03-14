@@ -10,7 +10,13 @@ import { AzureadProvider } from "@cdktf/provider-azuread/lib/provider";
 class AzureOpenAiLive2DChatbotStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
-    new AzurermProvider(this, "azure", { features: {} })
+    new AzurermProvider(this, "azure", {
+      features: {
+        resourceGroup: {
+          preventDeletionIfContainsResources: false
+        }
+      }
+    })
     new AzureadProvider(this, "azuread", {})
 
     const region = "eastasia";
