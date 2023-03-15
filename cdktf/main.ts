@@ -4,7 +4,7 @@ import { AzurermProvider } from "@cdktf/provider-azurerm/lib/provider";
 import { ResourceGroup } from "@cdktf/provider-azurerm/lib/resource-group";
 import { StaticSite } from "@cdktf/provider-azurerm/lib/static-site";
 import { Application } from "@cdktf/provider-azuread/lib/application";
-// import { ApplicationPassword } from "@cdktf/provider-azuread/lib/application-password";
+import { ApplicationPassword } from "@cdktf/provider-azuread/lib/application-password";
 import { AzureadProvider } from "@cdktf/provider-azuread/lib/provider";
 
 class AzureOpenAiLive2DChatbotStack extends TerraformStack {
@@ -15,7 +15,8 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
         resourceGroup: {
           preventDeletionIfContainsResources: false
         }
-      }
+      },
+      skipProviderRegistration: false
     })
     new AzureadProvider(this, "azuread", {})
 
@@ -26,21 +27,30 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
       location: region,
     });
 
-    new Application(this, "live2DApplication", {
-      displayName: "AzureOpenAiLive2DChatbot",
-    });
-
-    // const live2DApplicationPassword = new ApplicationPassword(this, "live2DApplicationPwd", {
-    //   applicationObjectId: live2DApplication.objectId,
-    //   displayName: "live2DApplication cred"
-    // })
-
     const live2DStaticSite = new StaticSite(this, "live2DStaticSite", {
       location: resourceGroup.location,
       name: "live2DStaticSite",
       resourceGroupName: resourceGroup.name,
-      skuTier: "Free",
+      skuTier: "Standard",
     });
+
+
+    const live2DApplication = new Application(this, "live2DApplication", {      
+      displayName: "AzureOpenAiLive2DChatbot",
+      signInAudience: "AzureADMyOrg",
+      web: {
+        redirectUris: ["https://" + live2DStaticSite.defaultHostName + "/.auth/login/aadb2c/callback"],
+        implicitGrant: {
+          accessTokenIssuanceEnabled: true,
+          idTokenIssuanceEnabled: true
+        }
+      }
+    });
+
+    const live2DApplicationPassword = new ApplicationPassword(this, "live2DApplicationPwd", {
+      applicationObjectId: live2DApplication.objectId,
+      displayName: "live2DApplication cred",
+    })
 
     new TerraformOutput(this, "live2DStaticSiteApiKey", {
       value: live2DStaticSite.apiKey,
@@ -50,13 +60,22 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
       value: live2DStaticSite.defaultHostName,
     });
 
-    // new TerraformOutput(this, "live2DApplicationPassword", {
-    //   value: live2DApplicationPassword.value,
-    //   sensitive: true
-    // });
+    new TerraformOutput(this, "live2DApplicationPasswordKeyId", {
+      value: live2DApplicationPassword.keyId,
+    });
 
+    new TerraformOutput(this, "live2DApplicationPassword", {
+      value: live2DApplicationPassword.value,
+      sensitive: true
+    });
 
-
+    new TerraformOutput(this, "AADB2C_PROVIDER_CLIENT_ID", {
+      value: live2DApplication.id,
+    });
+    new TerraformOutput(this, "AADB2C_PROVIDER_CLIENT_SECRET", {
+      value: live2DApplicationPassword.value,
+      sensitive: true
+    });
 
   }
 }
