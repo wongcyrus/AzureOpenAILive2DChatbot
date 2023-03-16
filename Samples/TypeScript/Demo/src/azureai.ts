@@ -8,6 +8,8 @@ export class AzureAi {
   private _openaipikey: string;
   private _ttsapikey: string;
   private _ttsregion: string;
+  private _ttsUrl: string;
+  private _sttUrl: string;
 
   private _inProgress: boolean;
 
@@ -22,6 +24,12 @@ export class AzureAi {
       this._openaipikey = json.openaipikey;
       this._ttsregion = json.ttsregion;
       this._ttsapikey = json.ttsapikey;
+    } else {
+      this._openaiurl = "api/chatgpt";
+      this._openaipikey = "";
+      this._ttsUrl = "api/text-to-speech";
+      this._sttUrl = "api/speech-to-text";
+      this._ttsapikey = "";
     }
 
     this._inProgress = false;
@@ -90,8 +98,6 @@ export class AzureAi {
 
   async getSpeechUrl(language: string, text: string) {
 
-    if (this._ttsregion === undefined) return;
-
     const requestHeaders: HeadersInit = new Headers();
     requestHeaders.set('Content-Type', 'application/ssml+xml');
     requestHeaders.set('X-Microsoft-OutputFormat', 'riff-8khz-16bit-mono-pcm');
@@ -106,7 +112,8 @@ export class AzureAi {
   </voice>
 </speak>`;
 
-    const response = await fetch(`https://${this._ttsregion}.tts.speech.microsoft.com/cognitiveservices/v1`, {
+    const ttsUrl = this._ttsregion ? `https://${this._ttsregion}.tts.speech.microsoft.com/cognitiveservices/v1` : this._ttsUrl;
+    const response = await fetch(ttsUrl, {
       method: 'POST',
       headers: requestHeaders,
       body: ssml
@@ -133,7 +140,9 @@ export class AzureAi {
 
     const wav = await getWaveBlob(data, false);
 
-    const response = await fetch(`https://${this._ttsregion}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=${language}`, {
+    const sttUrl = this._ttsregion ? `https://${this._ttsregion}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1` : this._sttUrl;
+
+    const response = await fetch(sttUrl + `?language=${language}`, {
       method: 'POST',
       headers: requestHeaders,
       body: wav
