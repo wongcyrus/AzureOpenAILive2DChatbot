@@ -64,7 +64,6 @@ export class AzureAi {
 
     messages.push({ sender: ip, text: prompt });
 
-    // const conversation = conversations + "\n\n## " + prompt
     const m = {
       "prompt": createPrompt(systemMessage, messages),
       "max_tokens": 800,
@@ -99,9 +98,14 @@ export class AzureAi {
   async getSpeechUrl(language: string, text: string) {
 
     const requestHeaders: HeadersInit = new Headers();
-    requestHeaders.set('Content-Type', 'application/ssml+xml');
-    requestHeaders.set('X-Microsoft-OutputFormat', 'riff-8khz-16bit-mono-pcm');
-    requestHeaders.set('Ocp-Apim-Subscription-Key', this._ttsapikey);
+    if (this._ttsapikey !== "") {
+      requestHeaders.set('Content-Type', 'application/ssml+xml');
+      requestHeaders.set('X-Microsoft-OutputFormat', 'riff-8khz-16bit-mono-pcm');
+      requestHeaders.set('Ocp-Apim-Subscription-Key', this._ttsapikey);
+    } else {
+      requestHeaders.set('Content-Type', 'application/json');
+    }
+
 
     const voice = LANGUAGE_TO_VOICE_MAPPING_LIST.find(c => c.voice.startsWith(language) && c.IsMale === false).voice;
 
@@ -118,6 +122,11 @@ export class AzureAi {
       headers: requestHeaders,
       body: ssml
     });
+
+    if (this._ttsapikey !== "") {
+      const json = await response.json();
+      console.log(json);
+    }
 
     const blob = await response.blob();
 
