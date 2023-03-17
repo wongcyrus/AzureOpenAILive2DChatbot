@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { App, TerraformOutput, TerraformStack } from "cdktf";
+import { App, Fn, TerraformOutput, TerraformStack } from "cdktf";
 import { AzurermProvider } from "@cdktf/provider-azurerm/lib/provider";
 import { ResourceGroup } from "@cdktf/provider-azurerm/lib/resource-group";
 import { StaticSite } from "@cdktf/provider-azurerm/lib/static-site";
@@ -12,7 +12,8 @@ import { CognitiveAccount } from "@cdktf/provider-azurerm/lib/cognitive-account"
 import { CognitiveDeployment } from "@cdktf/provider-azurerm/lib/cognitive-deployment";
 import { AzapiProvider } from "./.gen/providers/azapi/provider";
 import { StorageContainer } from "@cdktf/provider-azurerm/lib/storage-container";
-// import { DataAzapiResourceAction } from "./.gen/providers/azapi/data-azapi-resource-action";
+import { ResourceAction } from "./.gen/providers/azapi/resource-action";
+import { ApplicationInsights } from "@cdktf/provider-azurerm/lib/application-insights";
 
 class AzureOpenAiLive2DChatbotStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -57,21 +58,28 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
     new StorageContainer(this, "chatStorageBlob", {
       name: "voice",
       storageAccountName: chatStorageAccount.name,
-      containerAccessType: "blob",    
-
+      containerAccessType: "blob",
     })
 
-    const cognitiveAccount = new CognitiveAccount(this, "cognitiveServicesAccount", {
-      name: uniquePrefix + "CognitiveServicesAccount",
+    const ttsCognitiveAccount = new CognitiveAccount(this, "ttsCognitiveAccount", {
+      name: uniquePrefix + "TTSCognitiveServicesAccount",
+      resourceGroupName: resourceGroup.name,
+      location: "EastUS",
+      kind: "SpeechServices",
+      skuName: "S0",
+    });
+
+    const openAiCognitiveAccount = new CognitiveAccount(this, "openAiCognitiveAccount", {
+      name: uniquePrefix + "OpenAiCognitiveServicesAccount",
       resourceGroupName: resourceGroup.name,
       location: "EastUS",
       kind: "OpenAI",
       skuName: "S0",
     });
 
-    new CognitiveDeployment(this, "cognitiveServicesDeployment", {
-      name: uniquePrefix + "CognitiveServicesDeployment",
-      cognitiveAccountId: cognitiveAccount.id,
+    const openAiCognitiveDeployment = new CognitiveDeployment(this, "openAiCognitiveDeployment", {
+      name: uniquePrefix + "OpenAiCognitiveServicesDeployment",
+      cognitiveAccountId: openAiCognitiveAccount.id,
       model: {
         name: "gpt-35-turbo",
         format: "OpenAI",
@@ -89,15 +97,31 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
       skuTier: "Free",
     });
 
-    // new DataAzapiResourceAction(this, "live2DStaticSiteAction", {
-    //   type: "Microsoft.Web/staticSites/config@2022-03-01",
-    //   resourceId: live2DStaticSite.id + "/config/appsettings",
-    //   body: `{
-    //     "properties": {
-    //       "chatStorageAccountConnectionString" : "${chatStorageAccount.primaryConnectionString}"
-    //     }
-    //   }`
-    // });
+    const live2DApplicationInsights = new ApplicationInsights(this, "live2DApplicationInsights", {
+      name: "live2DApplicationInsights",
+      resourceGroupName: resourceGroup.name,
+      location: resourceGroup.location,
+      applicationType: "web",
+    })
+
+    new ResourceAction(this, "live2DStaticSiteAction", {
+      type: "Microsoft.Web/staticSites/config@2022-03-01",
+      resourceId: live2DStaticSite.id + "/config/appsettings",
+      method: "PUT",
+      body: `${Fn.jsonencode({
+        "properties": {
+          "APPINSIGHTS_INSTRUMENTATIONKEY": `${live2DApplicationInsights.instrumentationKey}`,
+          "APPLICATIONINSIGHTS_CONNECTION_STRING": `${live2DApplicationInsights.connectionString}`,
+          "chatStorageAccountConnectionString": `${chatStorageAccount.primaryConnectionString}`,
+          "openAiCognitiveAccount": `${openAiCognitiveAccount.primaryAccessKey}`,
+          "openAiCognitiveDeploymentName": `${openAiCognitiveDeployment.name}`,
+          "ttsApiKey": `${ttsCognitiveAccount.primaryAccessKey}`,
+          "speechRegion": `EastUS`
+        },
+        "kind": "appsettings"
+      })}`
+    });
+
 
     const live2DApplication = new Application(this, "live2DApplication", {
       displayName: "AzureOpenAiLive2DChatbot",
@@ -141,13 +165,22 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
       sensitive: true
     });
 
-    new TerraformOutput(this, "openAiCognitiveAccount", {
-      value: cognitiveAccount.primaryAccessKey,
+    new TerraformOutput(this, "openAiCognitiveAccountPrimaryAccessKey", {
+      value: openAiCognitiveAccount.primaryAccessKey,
       sensitive: true
     });
-    new TerraformOutput(this, "openAiCognitiveAccountEndpoint", {
-      value: cognitiveAccount.endpoint,
+    new TerraformOutput(this, "openAiCognitiveDeploymentName", {
+      value: openAiCognitiveDeployment.name,
     });
+
+    new TerraformOutput(this, "ttsApiKey", {
+      value: ttsCognitiveAccount.primaryAccessKey,
+      sensitive: true
+    });
+    new TerraformOutput(this, "ttsEndpoint", {
+      value: ttsCognitiveAccount.endpoint,
+    });
+
   }
 }
 

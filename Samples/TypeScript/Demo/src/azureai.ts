@@ -123,11 +123,8 @@ export class AzureAi {
       body: ssml
     });
 
-    if (this._ttsapikey !== "") {
-      const json = await response.json();
-      console.log(json);
-    }
-
+ 
+    console.log(response);
     const blob = await response.blob();
 
     var url = window.URL.createObjectURL(blob)
