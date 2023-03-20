@@ -18,10 +18,7 @@ const copyClickCode = (ele) => {
     }, nDelay);
   }
 };
-$(document).ready(async () => {
-  const { ip } = await $.getJSON("https://api.ipify.org?format=json");
-  document.cookie = "ip=" + ip;
-
+$(async () => {
   const md = markdownit({
     highlight: function (str, lang) { // markdown高亮
       try {
@@ -121,7 +118,7 @@ $(document).ready(async () => {
       if (e.data.size > 0) recordedChunks.push(e.data);
     });
     mediaRecorder.addEventListener('stop', () => {
-      startVoiceConversation(ip, $("#language").val(),
+      startVoiceConversation($("#language").val(),
         new Blob(recordedChunks, { type: 'audio/webm' }));
     });
     mediaRecorder.start();
@@ -187,7 +184,7 @@ $(document).ready(async () => {
 
   function botResponse() {
     const msgText = msgerInput.value;
-    startTextConversation(ip, $("#language").val(), msgText);
+    startTextConversation($("#language").val(), msgText);
   }
 
   //Handle query

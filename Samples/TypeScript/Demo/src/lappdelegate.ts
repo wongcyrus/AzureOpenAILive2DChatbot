@@ -257,12 +257,12 @@ export class LAppDelegate {
     return this._textureManager;
   }
 
-  public startVoiceConversation(ip: string, language: string, data: Blob) {
-    LAppLive2DManager.getInstance().startVoiceConversation(ip, language, data);
+  public startVoiceConversation(language: string, data: Blob) {
+    LAppLive2DManager.getInstance().startVoiceConversation(language, data);
   }
 
-  public startTextConversation(ip: string, language: string, message: string) {
-    LAppLive2DManager.getInstance().startTextConversation(ip, language, message);
+  public startTextConversation(language: string, message: string) {
+    LAppLive2DManager.getInstance().startTextConversation(language, message);
   }
 
 

@@ -14,6 +14,7 @@ import { AzapiProvider } from "./.gen/providers/azapi/provider";
 import { StorageContainer } from "@cdktf/provider-azurerm/lib/storage-container";
 import { ResourceAction } from "./.gen/providers/azapi/resource-action";
 import { ApplicationInsights } from "@cdktf/provider-azurerm/lib/application-insights";
+import { StorageManagementPolicy } from "@cdktf/provider-azurerm/lib/storage-management-policy";
 
 class AzureOpenAiLive2DChatbotStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -55,10 +56,32 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
       storageAccountName: chatStorageAccount.name,
     })
 
+    new StorageTable(this, "userStorageTable", {
+      name: "users",
+      storageAccountName: chatStorageAccount.name,
+    })
+
     new StorageContainer(this, "chatStorageBlob", {
       name: "voice",
       storageAccountName: chatStorageAccount.name,
       containerAccessType: "blob",
+    })
+
+    new StorageManagementPolicy(this,"StorageManagementPolicy",{    
+      storageAccountId: chatStorageAccount.id,
+      rule: [{
+        name: "DeleteOldBlobs",
+        enabled: true,
+        filters: {
+          blobTypes: ["blockBlob"],
+          prefixMatch: ["voice/*"]             
+        },
+        actions:{
+          baseBlob: {
+            deleteAfterDaysSinceModificationGreaterThan: 1
+          }
+        }
+      }]
     })
 
     const ttsCognitiveAccount = new CognitiveAccount(this, "ttsCognitiveAccount", {

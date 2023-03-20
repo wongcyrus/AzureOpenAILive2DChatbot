@@ -35,7 +35,7 @@ export class AzureAi {
     this._inProgress = false;
   }
 
-  async getOpenAiAnswer(ip: string, prompt: string) {
+  async getOpenAiAnswer(prompt: string) {
 
     if (this._openaiurl === undefined || this._inProgress || prompt === "") return "";
 
@@ -62,7 +62,7 @@ export class AzureAi {
 
     const systemMessage = "<|im_start|>system\n I am assistant. \n<|im_end|>"
 
-    messages.push({ sender: ip, text: prompt });
+    messages.push({ sender: "User", text: prompt });
 
     const m = {
       "prompt": createPrompt(systemMessage, messages),
@@ -135,8 +135,7 @@ export class AzureAi {
     return url;
   }
 
-  async getTextFromSpeech(language: string, data: Blob) {
-    if (this._ttsregion === undefined) return "";
+  async getTextFromSpeech(language: string, data: Blob) {   
 
     LAppPal.printMessage(language);
     const requestHeaders: HeadersInit = new Headers();

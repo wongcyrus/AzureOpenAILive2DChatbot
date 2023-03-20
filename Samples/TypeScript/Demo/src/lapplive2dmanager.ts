@@ -118,12 +118,10 @@ export class LAppLive2DManager {
         }
 
         const prompt: string = (document.getElementById("prompt") as any).value;
-        const language: string = (document.getElementById("language") as any).value;
-
-        const ip = ($ as any).cookie('ip');
+        const language: string = (document.getElementById("language") as any).value;       
 
         const azureAi = new AzureAi();
-        azureAi.getOpenAiAnswer(ip, prompt)
+        azureAi.getOpenAiAnswer(prompt)
           .then(ans => azureAi.getSpeechUrl(language, ans))
           .then(url => {
             this._models.at(i)._wavFileHandler.loadWavFile(url);
@@ -142,14 +140,14 @@ export class LAppLive2DManager {
 
 
 
-  public startTextConversation(ip: string, language: string, message: string) {
+  public startTextConversation(language: string, message: string) {
     for (let i = 0; i < this._models.getSize(); i++) {
       if (LAppDefine.DebugLogEnable) {
         LAppPal.printMessage(
           `startConversation`
         );
         const azureAi = new AzureAi();
-        azureAi.getOpenAiAnswer(ip, message)
+        azureAi.getOpenAiAnswer(message)
           .then(ans => azureAi.getSpeechUrl(language, ans))
           .then(url => {
             this._models.at(i)._wavFileHandler.loadWavFile(url);
@@ -165,7 +163,7 @@ export class LAppLive2DManager {
     }
   }
 
-  public startVoiceConversation(ip: string, language: string, data: Blob) {
+  public startVoiceConversation(language: string, data: Blob) {
     for (let i = 0; i < this._models.getSize(); i++) {
       if (LAppDefine.DebugLogEnable) {
         LAppPal.printMessage(
@@ -175,7 +173,7 @@ export class LAppLive2DManager {
 
         azureAi.getTextFromSpeech(language, data)
           .then(text => {
-            return azureAi.getOpenAiAnswer(ip, text);
+            return azureAi.getOpenAiAnswer(text);
           }).then(ans => azureAi.getSpeechUrl(language, ans))
           .then(url => {
             this._models.at(i)._wavFileHandler.loadWavFile(url);
