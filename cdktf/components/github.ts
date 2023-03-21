@@ -5,6 +5,7 @@ import { GithubProvider } from "@cdktf/provider-github/lib/provider";
 import { Construct } from "constructs";
 
 export interface GitHubProps {
+    apiToken: string;
     repository: string;
     clientID: string;
     clientSecret: string;
@@ -39,6 +40,13 @@ export class GitHubConstruct extends Construct {
             secretName: "AADB2C_PROVIDER_CLIENT_SECRET",
             plaintextValue: props.clientSecret
         });
+        new ActionsSecret(this, "DeploymentTokenActionsSecret", {
+            repository: props.repository,
+            secretName: "AZURE_STATIC_WEB_APPS_API_TOKEN",
+            plaintextValue: props.apiToken
+        });
+
+        
 
     }
 }

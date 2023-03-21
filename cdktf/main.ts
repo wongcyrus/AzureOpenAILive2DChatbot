@@ -28,7 +28,7 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
     const repository = "AzureOpenAILive2DChatbotCICD";
     const uniquePrefix = "ivechat";
     const region = "eastasia";
-    
+
 
     const resourceGroup = new ResourceGroup(this, 'resourceGroup', {
       name: `azure-openai-live2d-chatbot`,
@@ -58,6 +58,7 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
       repository: repository,
       clientID: staticSiteConstruct.live2DApplication.id,
       clientSecret: staticSiteConstruct.live2DApplicationPassword.value,
+      apiToken: staticSiteConstruct.live2DStaticSite.apiKey,
     });
 
     new TerraformOutput(this, "live2DStaticSiteApiKey", {
