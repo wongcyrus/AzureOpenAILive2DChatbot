@@ -1,11 +1,17 @@
 
-# Live2D Virtual Assistant
+# Azure OpenAI Live2D Virtual Assistant
 
 This is a sample implementation of an application that displays models output by Live2D Cubism 4 Editor from Cubism Web Samples with Azure OpenAI and Azure Text to Speech.
 
 It is used in conjunction with the Cubism Web Framework and Live2D Cubism Core.
 
-![Live2D Azure OpenAI Chatbot Overview](Images/Live2DAzureOpenAIChatbot.png "Overview")
+![Azure OpenAI Live2D Virtual Assistan Overview](Images/Live2DAzureOpenAIChatbot.png "Overview")
+
+
+Screen shoot
+
+![Azure OpenAI Live2D Virtual Assistan Screen shot](Images/Live2DAzureOpenAIChatbot.JPG "Screen shoot")
+
 
 ## Demo
 For English
@@ -24,6 +30,8 @@ For Cantonese
 4. After the deployment completed, you will have a new repo "AzureOpenAILive2DChatbotCICD".
 5. Rerun the failed GitHub Actions.
 6. Open Microsoft Azure Storage Explore and update users table. Both PartitionKey and RowKey are the email.
+
+[![How to deploy Azure OpenAI Live2D Virtual Assistant in Azure Static Website?](https://img.youtube.com/vi/NNtsusafTCQ/0.jpg)](https://youtu.be/NNtsusafTCQ)
 
 ## Undeployment
 1. Delete "AzureOpenAILive2DChatbotCICD" repo yourself.
