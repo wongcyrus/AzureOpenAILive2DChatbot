@@ -18,11 +18,12 @@ For Cantonese
 
 
 ## Deployment
-1. Open a terminal ```export GITHUB_TOKEN=xxxxx``` with your GitHub Token.
-2. Run ```./deploy.sh```
-3. After the deployment completed, you will have a new repo "AzureOpenAILive2DChatbotCICD".
-4. Rerun the failed GitHub Actions.
-5. Open Microsoft Azure Storage Explore and update users table. Both PartitionKey and RowKey are the email.
+1. Login Azure CLI ```az login --use-device-code```
+2. Open a terminal ```export GITHUB_TOKEN=xxxxx``` with your GitHub Token.
+3. Run ```./deploy.sh```
+4. After the deployment completed, you will have a new repo "AzureOpenAILive2DChatbotCICD".
+5. Rerun the failed GitHub Actions.
+6. Open Microsoft Azure Storage Explore and update users table. Both PartitionKey and RowKey are the email.
 
 ## Undeployment
 1. Delete "AzureOpenAILive2DChatbotCICD" repo yourself.
