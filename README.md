@@ -22,10 +22,14 @@ For Cantonese
 2. You need to go to Live2D website to get your free license packages. 
 3. Copy the file to Framework.
 4. Open a terminal ```export GITHUB_TOKEN=xxxxx``` with your GitHub Token.
-5. Run ```./deployment.sh```
+5. Run ```./deploy.sh```
 6. After the deployment completed, you will have a new repo "AzureOpenAILive2DChatbotCICD".
 7. Rerun the failed GitHub Actions.
 8. Open Microsoft Azure Storage Explore and update users table. Both PartitionKey and RowKey are the email.
+
+## Undeployment
+1. Delete "AzureOpenAILive2DChatbotCICD" repo yourself.
+2. Run ```./undeploy.sh```
 
 
 ## License
