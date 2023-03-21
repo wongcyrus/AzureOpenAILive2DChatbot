@@ -18,14 +18,11 @@ For Cantonese
 
 
 ## Deployment
-1. Create a new CodeSpace.    
-2. You need to go to Live2D website to get your free license packages. 
-3. Copy the file to Framework.
-4. Open a terminal ```export GITHUB_TOKEN=xxxxx``` with your GitHub Token.
-5. Run ```./deploy.sh```
-6. After the deployment completed, you will have a new repo "AzureOpenAILive2DChatbotCICD".
-7. Rerun the failed GitHub Actions.
-8. Open Microsoft Azure Storage Explore and update users table. Both PartitionKey and RowKey are the email.
+1. Open a terminal ```export GITHUB_TOKEN=xxxxx``` with your GitHub Token.
+2. Run ```./deploy.sh```
+3. After the deployment completed, you will have a new repo "AzureOpenAILive2DChatbotCICD".
+4. Rerun the failed GitHub Actions.
+5. Open Microsoft Azure Storage Explore and update users table. Both PartitionKey and RowKey are the email.
 
 ## Undeployment
 1. Delete "AzureOpenAILive2DChatbotCICD" repo yourself.
@@ -65,9 +62,12 @@ Download the Cubism SDK for Web from [here](https://www.live2d.com/download/cubi
 
 ## Development environment construction
 
-1. Install [Node.js] and [Visual Studio Code]
-1. Open **the top directory of this SDK** in Visual Studio Code and install the recommended extensions
+1. Create a new CodeSpace.  
+2. Install [Node.js] and [Visual Studio Code]
+3. Open **the top directory of this SDK** in Visual Studio Code and install the recommended extensions
     * In addition to pop-up notifications, you can check the others by typing `@recommended` from the Extensions tab
+4. You need to go to Live2D website to get your free license packages. 
+5. Copy the file to Framework.    
 
 ### Operation check of sample demo
 
