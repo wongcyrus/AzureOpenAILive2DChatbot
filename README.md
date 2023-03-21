@@ -17,6 +17,16 @@ For Cantonese
 [![廣東話互動對答Azure OpenAI 加 Azure語音服務Live2D虛擬助理示範](https://img.youtube.com/vi/0291zqM4da0/0.jpg)](https://youtu.be/0291zqM4da0)
 
 
+## Deployment
+1. Create a new CodeSpace.    
+2. You need to go to Live2D website to get your free license packages. 
+3. Copy the file to Framework.
+4. Open a terminal ```export GITHUB_TOKEN=xxxxx``` with your GitHub Token.
+5. Run ```./deployment.sh```
+6. After the deployment completed, you will have a new repo "AzureOpenAILive2DChatbotCICD".
+7. Rerun the failed GitHub Actions.
+8. Open Microsoft Azure Storage Explore and update users table. Both PartitionKey and RowKey are the email.
+
 
 ## License
 
@@ -35,9 +45,9 @@ Please check the [notices](NOTICE.md) before using this SDK.
 ├─ .vscode          # Project settings directory for Visual Studio Code
 ├─ Core             # Directory containing Live2D Cubism Core
 ├─ Framework        # Directory containing source code such as rendering and animation functions
-└─ Samples
-   ├─ Resources     # Directory containing resources such as model files and images
-   └─ TypeScript    # Directory containing TypeScript sample projects
+├─ website          # Directory containing source code for the web
+├─ cdktf            # Directory containing source code for Azure deployment.
+
 ```
 
 
@@ -62,20 +72,13 @@ Enter `>Tasks: Run Task` in the command palette (*View > Command Palette...*) to
 1. Select `npm: install - Samples/TypeScript/Demo` from the task list to download the dependent packages
 1. Select `npm: build - Samples/TypeScript/Demo` from the task list to build the sample demo
 1. Select `npm: serve - Samples/TypeScript/Demo` from the task list to start the simple server for operation check
-1. Enter `http://localhost:5000/Samples/TypeScript/Demo/` in the URL field of your browser to access it
+1. Enter `http://localhost:5000/website/` in the URL field of your browser to access it
 1. Enter `>Tasks: Terminate Task` from the command palette and select `npm: serve` to terminate the simple server
 
 For other tasks, see [README.md](Samples/TypeScript/README.md) of the sample project.
 
 NOTE: Settings for debugging are described in `.vscode/tasks.json`.
 
-### Azure OpenAI and Azure Speech service
-
-You have to create enable those 2 services yourself and collect the following 4 parameters:
-1. OpenAI Endpoint
-2. OpenAI Key
-3. Speech service Region
-4. Speech service Key
 
 
 ### Project debugging
@@ -125,7 +128,7 @@ Please refer to [CHANGELOG.md](CHANGELOG.md) for the changelog of this repositor
 | Windows | Microsoft Edge | 104.0.1293.70 |
 | Windows | Mozilla Firefox | 104.0 |
 
-Note: You can start the server for operation check by running the `serve` script of `./Samples/TypeScript/Demo/package.json`.
+Note: You can start the server for operation check by running the `serve` script of `./website/package.json`.
 
 
 ## Contributing

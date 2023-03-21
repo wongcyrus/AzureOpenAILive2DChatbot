@@ -5,55 +5,55 @@
     {
       "type": "npm",
       "script": "install",
-      "path": "Samples/TypeScript/Demo/",
+      "path": "website/",
       "problemMatcher": []
     },
     {
       "type": "npm",
       "script": "start",
-      "path": "Samples/TypeScript/Demo/",
+      "path": "website/",
       "group": "build",
       "problemMatcher": []
     },
     {
       "type": "npm",
       "script": "build",
-      "path": "Samples/TypeScript/Demo/",
+      "path": "website/",
       "group": "build",
       "problemMatcher": []
     },
     {
       "type": "npm",
       "script": "build:prod",
-      "path": "Samples/TypeScript/Demo/",
+      "path": "website/",
       "group": "build",
       "problemMatcher": []
     },
     {
       "type": "npm",
       "script": "test",
-      "path": "Samples/TypeScript/Demo/",
+      "path": "website/",
       "group": "test",
       "problemMatcher": []
     },
     {
       "type": "npm",
       "script": "lint",
-      "path": "Samples/TypeScript/Demo/",
+      "path": "website/",
       "group": "test",
       "problemMatcher": []
     },
     {
       "type": "npm",
       "script": "lint:fix",
-      "path": "Samples/TypeScript/Demo/",
+      "path": "website/",
       "group": "test",
       "problemMatcher": []
     },
     {
       "type": "npm",
       "script": "clean",
-      "path": "Samples/TypeScript/Demo/",
+      "path": "website/",
       "problemMatcher": []
     },
     // Tasks for Framework
