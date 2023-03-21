@@ -21,7 +21,7 @@ const copyClickCode = (ele) => {
 $(document).ready(async () => {
 
   async function getUser() {
-    const response = await fetch('/api/user');
+    const response = await fetch('/.auth/me');
     const payload = await response.json();
     const { clientPrincipal } = payload;
     return clientPrincipal;
