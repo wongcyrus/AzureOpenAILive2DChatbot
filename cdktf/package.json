@@ -22,6 +22,7 @@
   "dependencies": {
     "@cdktf/provider-azuread": "5.0.3",
     "@cdktf/provider-azurerm": "5.0.9",
+    "@cdktf/provider-github": "^6.0.5",
     "cdktf": "^0.15.5",
     "constructs": "^10.1.277"
   },

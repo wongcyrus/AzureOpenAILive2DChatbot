@@ -123,7 +123,7 @@ export class AzureAi {
       body: ssml
     });
 
- 
+
     console.log(response);
     const blob = await response.blob();
 
@@ -135,7 +135,7 @@ export class AzureAi {
     return url;
   }
 
-  async getTextFromSpeech(language: string, data: Blob) {   
+  async getTextFromSpeech(language: string, data: Blob) {
 
     LAppPal.printMessage(language);
     const requestHeaders: HeadersInit = new Headers();
@@ -143,7 +143,7 @@ export class AzureAi {
     requestHeaders.set('Content-Type', 'audio/wav; codecs=audio/pcm; samplerate=16000');
     requestHeaders.set('Ocp-Apim-Subscription-Key', this._ttsapikey);
 
-    const wav = await getWaveBlob(data, false);
+    const wav = await getWaveBlob(data, false, { sampleRate: 16000 });
 
     const sttUrl = this._ttsregion ? `https://${this._ttsregion}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1` : this._sttUrl;
 

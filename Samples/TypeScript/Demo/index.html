@@ -33,14 +33,15 @@
 
   <div class="row">
     <div class="leftColumn">.
-      <a href="/.auth/logout">Log out</a>
       <input type="hidden" id="config">
       <input type="hidden" id="conversations">
       <input type="hidden" id="query" value="">
       <input type="hidden" id="reply" value="">
+      <a class="member" href="/.auth/logout">Logout </a>
       <br />
-      <label for="configFileInput">Config File (<a href="config.json" target="_blank">Sample</a>):</label>
-      <input type="file" id="configFileInput"><br />
+      <label for="configFileInput" class="nonmember">Config File (<a href="config.json"
+          target="_blank">Sample</a>):</label>
+      <input type="file" id="configFileInput" class="nonmember"><br class="nonmember" />
       <label for="language">Language</label>
       <select name="language" id="language">
         <option value='af-ZA'>Afrikaans (South Africa)</option>
