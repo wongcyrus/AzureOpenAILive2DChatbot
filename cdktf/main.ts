@@ -9,6 +9,7 @@ import { AzapiProvider } from "./.gen/providers/azapi/provider";
 import { ChatStorageAccountConstruct } from "./components/chat-storage-account";
 import { CognitiveAccountConstruct } from "./components/cognitive";
 import { StaticSiteConstruct } from "./components/static-site";
+import { GitHubConstruct } from "./components/github";
 
 class AzureOpenAiLive2DChatbotStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -24,8 +25,10 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
     new AzureadProvider(this, "azuread", {});
     new AzapiProvider(this, "azapi", {});
 
+    const repository = "AzureOpenAILive2DChatbotCICD";
     const uniquePrefix = "ivechat";
     const region = "eastasia";
+    
 
     const resourceGroup = new ResourceGroup(this, 'resourceGroup', {
       name: `azure-openai-live2d-chatbot`,
@@ -49,6 +52,12 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
       openAiCognitiveDeploymentName: cognitiveAccountConstruct.openAiCognitiveDeployment.name,
       ttsApiKey: cognitiveAccountConstruct.ttsCognitiveAccount.primaryAccessKey,
       speechRegion: "EastUS"
+    });
+
+    new GitHubConstruct(this, "github", {
+      repository: repository,
+      clientID: staticSiteConstruct.live2DApplication.id,
+      clientSecret: staticSiteConstruct.live2DApplicationPassword.value,
     });
 
     new TerraformOutput(this, "live2DStaticSiteApiKey", {
