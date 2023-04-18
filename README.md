@@ -27,11 +27,20 @@ For Cantonese
 1. Login Azure CLI ```az login --use-device-code```
 2. Open a terminal ```export GITHUB_TOKEN=xxxxx``` with your GitHub Token.
 3. Run ```./deploy.sh```
-4. After the deployment completed, you will have a new repo "AzureOpenAILive2DChatbotCICD".
+4. After the deployment completed, you will have a new repo uniquePrefix+"AzureOpenAILive2DChatbotCICD".
 5. Rerun the failed GitHub Actions.
 6. Open Microsoft Azure Storage Explore and update users table. Both PartitionKey and RowKey are the email.
 
+> Deployment of cognitiveAccount/openAiCognitiveAccount may timeout and you may need to re-run the deployment after the creation completed.
+
 [![How to deploy Azure OpenAI Live2D Virtual Assistant in Azure Static Website?](https://img.youtube.com/vi/NNtsusafTCQ/0.jpg)](https://youtu.be/NNtsusafTCQ)
+
+## For version deployment
+You need to update the /workspaces/AzureOpenAILive2DChatbot/cdktf/main.ts
+```
+    const uniquePrefix = "ivechat";
+    const region = "eastasia";
+```
 
 ## Undeployment
 1. Delete "AzureOpenAILive2DChatbotCICD" repo yourself.
@@ -71,12 +80,12 @@ Download the Cubism SDK for Web from [here](https://www.live2d.com/download/cubi
 
 ## Development environment construction
 
-1. Create a new CodeSpace.  
+1. Create a new CodeSpace.
 2. Install [Node.js] and [Visual Studio Code]
 3. Open **the top directory of this SDK** in Visual Studio Code and install the recommended extensions
     * In addition to pop-up notifications, you can check the others by typing `@recommended` from the Extensions tab
-4. You need to go to Live2D website to get your free license packages. 
-5. Copy the file to Framework.    
+4. You need to go to Live2D website to get your free license packages.
+5. Copy the file to Framework.
 
 ### Operation check of sample demo
 

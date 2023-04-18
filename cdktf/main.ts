@@ -26,12 +26,12 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
     new AzapiProvider(this, "azapi", {});
 
     const repository = "AzureOpenAILive2DChatbotCICD";
-    const uniquePrefix = "ivechat";
+    const uniquePrefix = "ivemvp";
     const region = "eastasia";
 
 
     const resourceGroup = new ResourceGroup(this, 'resourceGroup', {
-      name: `azure-openai-live2d-chatbot`,
+      name: uniquePrefix + `azure-openai-live2d-chatbot`,
       location: region,
     });
 
@@ -49,13 +49,13 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
       resourceGroup: resourceGroup,
       chatStorageAccountConnectionString: chatStorageAccountConstruct.chatStorageAccount.primaryConnectionString,
       openAiCognitiveAccount: cognitiveAccountConstruct.openAiCognitiveAccount.primaryAccessKey,
-      openAiCognitiveDeploymentName: cognitiveAccountConstruct.openAiCognitiveDeployment.name,
+      openAiCognitiveDeploymentNames: cognitiveAccountConstruct.openAiCognitiveDeployments.map(x => x.name),
       ttsApiKey: cognitiveAccountConstruct.ttsCognitiveAccount.primaryAccessKey,
       speechRegion: "EastUS"
     });
 
     new GitHubConstruct(this, "github", {
-      repository: repository,
+      repository: uniquePrefix + repository,
       clientID: staticSiteConstruct.live2DApplication.id,
       clientSecret: staticSiteConstruct.live2DApplicationPassword.value,
       apiToken: staticSiteConstruct.live2DStaticSite.apiKey,
@@ -90,8 +90,8 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
       value: cognitiveAccountConstruct.openAiCognitiveAccount.primaryAccessKey,
       sensitive: true
     });
-    new TerraformOutput(this, "openAiCognitiveDeploymentName", {
-      value: cognitiveAccountConstruct.openAiCognitiveDeployment.name,
+    new TerraformOutput(this, "openAiCognitiveDeploymentNames", {
+      value: cognitiveAccountConstruct.openAiCognitiveDeployments.map(x => x.name).join(","),
     });
 
     new TerraformOutput(this, "ttsApiKey", {
