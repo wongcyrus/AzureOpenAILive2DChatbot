@@ -42,7 +42,7 @@ export class CognitiveAccountConstruct extends Construct {
 
     for (const model of models) {
       const openaModel = new CognitiveDeployment(this, "openAiCognitiveDeployment" + model.name + model.version, {
-        name: props.uniquePrefix + "OpenAiCognitiveServicesDeployment",
+        name: model.name,
         cognitiveAccountId: this.openAiCognitiveAccount.id,
         model: {
           name: model.name,
