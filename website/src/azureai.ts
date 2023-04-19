@@ -42,8 +42,8 @@ export class AzureAi {
     this._inProgress = true;
 
     interface Message {
-      sender: string;
-      text: string;
+      role: string;
+      content: string;
     }
 
     const conversations = (document.getElementById("conversations") as any).value;
@@ -51,21 +51,17 @@ export class AzureAi {
     const messages = conversations ? <Message[]>JSON.parse(conversations) : [];
     LAppPal.printMessage(prompt);
 
-    const createPrompt = (system_message: string, messages: Array<Message>) => {
-      let prompt = system_message;
-      for (const message of messages) {
-        prompt += `\n<|im_start|>${message.sender}\n${message.text}\n<|im_end|>`
-      }
-      prompt += "\n<|im_start|>assistant\n"
-      return prompt;
+    const createPrompt = (system_message: Message, messages: Array<Message>) => {
+      messages.unshift(system_message);
+      return messages;
     }
 
-    const systemMessage = "<|im_start|>system\n I am assistant. \n<|im_end|>"
+    const systemMessage = { "role": "system", "content": "You are a helpful assistant." };
 
-    messages.push({ sender: "User", text: prompt });
+    messages.push({ role: "user", content: prompt });
 
     const m = {
-      "model" : $("#model").val(),
+      "model": $("#model").val(),
       "prompt": createPrompt(systemMessage, messages),
       "max_tokens": 800,
       "temperature": 0.7,
@@ -86,9 +82,9 @@ export class AzureAi {
     });
     const json = await repsonse.json();
 
-    messages.push({ "sender": "assistant", "text": json.choices[0].text })
+    const answer: string = json.choices[0].message.content;
+    messages.push({ role: "assistant", content: answer });
 
-    const answer: string = json.choices[0].text
     LAppPal.printMessage(answer);
     $("#reply").val(answer).trigger('change');
     (document.getElementById("conversations") as any).value = JSON.stringify(messages);
