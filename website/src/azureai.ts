@@ -65,6 +65,7 @@ export class AzureAi {
     messages.push({ sender: "User", text: prompt });
 
     const m = {
+      "model" : $("#model").val(),
       "prompt": createPrompt(systemMessage, messages),
       "max_tokens": 800,
       "temperature": 0.7,
