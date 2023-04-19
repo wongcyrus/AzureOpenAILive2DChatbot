@@ -64,11 +64,12 @@ export class AzureAi {
     const m = {
       "model": $("#model").val(),
       "prompt": createPrompt(systemMessage, messages),
-      "max_tokens": 800,
-      "temperature": 0.7,
-      "frequency_penalty": 0,
-      "presence_penalty": 0,
-      "top_p": 0.95,
+      "max_tokens": +$("#max_tokens").val(),
+      "temperature": +$("#temperature").val(),
+      "frequency_penalty": +$("#frequency_penalty").val(),
+      "presence_penalty": +$("#presence_penalty").val(),
+      "top_p": +$("#top_p").val(),
+      "best_of": +$("#best_of").val(),
       "stop": ["<|im_end|>"]
     };
 
