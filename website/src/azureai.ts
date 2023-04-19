@@ -52,7 +52,8 @@ export class AzureAi {
     LAppPal.printMessage(prompt);
 
     const createPrompt = (system_message: Message, messages: Array<Message>) => {
-      messages.unshift(system_message);
+      if (messages.length === 1)
+        messages.unshift(system_message);
       return messages;
     }
 
@@ -87,6 +88,7 @@ export class AzureAi {
 
     LAppPal.printMessage(answer);
     $("#reply").val(answer).trigger('change');
+    $("#cost").text("(Left: $" + json.left.toFixed(5) + " Just Used: $" + json.cost.toFixed(6) + ")");
     (document.getElementById("conversations") as any).value = JSON.stringify(messages);
 
     return answer;
