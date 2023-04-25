@@ -62,6 +62,7 @@ export class AzureAi {
     messages.push({ role: "user", content: prompt });
 
     const m = {
+      "taskId": $("#taskId").val(),
       "model": $("#model").val(),
       "prompt": createPrompt(systemMessage, messages),
       "max_tokens": +$("#max_tokens").val(),
