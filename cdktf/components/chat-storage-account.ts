@@ -93,7 +93,7 @@ export class ChatStorageAccountConstruct extends Construct {
         },
         actions: {
           baseBlob: {
-            deleteAfterDaysSinceModificationGreaterThan: 2
+            deleteAfterDaysSinceModificationGreaterThan: 7
           }
         }
       }]

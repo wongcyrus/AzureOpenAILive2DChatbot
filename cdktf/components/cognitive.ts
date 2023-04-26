@@ -38,7 +38,11 @@ export class CognitiveAccountConstruct extends Construct {
       { name: "text-ada-001", version: "1" }, { name: "text-curie-001", version: "1" },
       { name: "text-davinci-002", version: "1" }, { name: "text-davinci-003", version: "1" },
       { name: "code-davinci-002", version: "1" },
-      { name: "gpt-35-turbo", version: "0301" }, { name: "gpt-4", version: "0314" }, { name: "gpt-4-32k", version: "0314" }]
+      { name: "gpt-35-turbo", version: "0301" }, { name: "gpt-4", version: "0314" }, { name: "gpt-4-32k", version: "0314" },
+      { name: "text-similarity-ada-001", version: "1" },
+      { name: "text-similarity-curie-001", version: "1" },
+      { name: "text-embedding-ada-002", version: "2" },
+    ]
 
     for (const model of models) {
       const openaModel = new CognitiveDeployment(this, "openAiCognitiveDeployment" + model.name + model.version, {
