@@ -1,0 +1,8 @@
+.chat-history {
+    table-layout: fixed;
+    width: 100%;
+  }
+  
+  .wrap {
+    word-wrap: break-word;
+  }

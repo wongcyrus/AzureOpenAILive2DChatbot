@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Azure Open AI ChatGPT Virtual Assistant - Chat records</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/chat-records.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1>Chat Records</h1>
+        <div class="row">
+            <div class="col">
+                <!-- Content here -->
+                <a class="member" href="/.auth/logout">Logout</a>
+
+                <form>
+                    <div class="form-row">
+                        <div class="col">
+                            <label for="email" class="col-form-label">Email:</label>
+                            <input type="email" class="form-control" placeholder="Email" id="email" />
+                        </div>
+                        <div class="col">
+                            <label for="taskId" class="col-form-label">Task ID:</label>
+                            <input type="text" class="form-control" placeholder="taskId" id="taskId" />
+                        </div>
+                        <div class="col">
+                            <label for="start" class="col-form-label">Start:</label>
+                            <input type="datetime-local" id="start" name="start" min="2023-01-01T00:00"
+                                max="2033-01-01T00:00" class="form-control">
+                        </div>
+                        <div class="col">
+                            <label for="end" class="col-form-label">End:</label>
+                            <input type="datetime-local" id="end" name="end" min="2023-01-01T00:00"
+                                max="2033-01-01T00:00" class="form-control">
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="model">Model:</label>
+                                <select name="model" id="model" class="form-control">
+                                    <option value='text-ada-001'>text-ada-001</option>
+                                    <option value='text-curie-001'>text-curie-001</option>
+                                    <option value='text-davinci-002'>text-davinci-002</option>
+                                    <option value='code-davinci-002'>code-davinci-002</option>
+                                    <option value='text-davinci-003'>text-davinci-003</option>
+                                    <option value='gpt-35-turbo' selected="selected">gpt-35-turbo</option>
+                                    <option value='gpt-4-32k'>gpt-4-32k</option>
+                                    <option value='gpt-4'>gpt-4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class=" col">
+                            <button type="submit" class="btn btn-primary" id="email-submit">Load</button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="PromptTextarea">Prompt by <a
+                                        href="https://github.com/janl/mustache.js/">mustache.js</a> </label>
+                                <button type="submit" class="btn btn-primary" id="comment-submit">Send</button>
+                                <textarea class="form-control" id="PromptTextarea" rows="10">
+Comments the following conversations between User and AI in 100 words:
+{{#conversations}}
+User: {{User}}
+AI: {{Chatbot}}
+{{/conversations}}
+Total Cost: {{totalCost}}
+Total Token: {{totalTokens}}
+Give a mark from 1-10 for the effectiveness of those conversations.
+Return JSON in following format:
+{
+"marks": 1,
+"comments": ""
+}                                                                    
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="ResponseTextarea">Response <span class="badge badge-light"
+                                        id="mark"></span></label>
+                                <textarea class="form-control" id="ResponseTextarea" rows="10"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="row" id="records">
+            <table class="table table-striped chat-history">
+                <thead>
+                    <tr>
+                        <th scope="col" width="20px">#</th>
+                        <th scope="col">User</th>
+                        <th scope="col">AI</th>
+                        <th scope="col" width="80px">Task ID</th>
+                        <th scope="col" width="80px">Model</th>
+                        <th scope="col" width="80px">Prompt Tokens</th>
+                        <th scope="col" width="90px">Completion Tokens</th>
+                        <th scope="col" width="80px">Total Tokens</th>
+                        <th scope="col" width="80px">Cost</th>
+                        <th scope="col" width="100px">Time</th>
+                        <th scope="col" class=".wrap" width="180px">Other</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.0.1/mustache.min.js"></script>
+    <!--  Logic     -->
+    <script src="./js/chat-records.js"></script>
+</body>
+
+</html>

@@ -305,8 +305,8 @@ export class LAppDelegate {
    * Resize the canvas to fill the screen.
    */
   private _resizeCanvas(): void {
-    canvas.width = window.innerWidth / 3 * 2;
-    canvas.height = window.innerHeight;
+    canvas.width = (window.innerWidth < 768 ? window.innerWidth * 0.8 : window.innerWidth / 2 * 0.9);
+    canvas.height = window.innerHeight * 0.9;
   }
 
   _cubismOption: Option; // Cubism SDK Option

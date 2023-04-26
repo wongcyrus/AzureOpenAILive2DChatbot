@@ -2,31 +2,23 @@
 <html>
 
 <head>
+  <!-- Required meta tags -->
   <meta charset="utf-8">
-  <meta name="viewport" content="width=1900">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Azure Open AI ChatGPT Virtual Assistant</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- Pollyfill script -->
-  <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
-  <!-- Live2DCubismCore script -->
-  <script src="Core/live2dcubismcore.js"></script>
-  <!-- Build script -->
-  <script src="./dist/bundle.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.3.min.js"
-    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="./css/index.css">
+
+
 
   <!--  Markdown     -->
   <link href="https://cdn.staticfile.org/github-markdown-css/5.2.0/github-markdown-light.min.css" rel="stylesheet">
   <link href="https://cdn.staticfile.org/highlight.js/11.7.0/styles/github.min.css" rel="stylesheet">
-  <script src="https://cdn.staticfile.org/markdown-it/13.0.1/markdown-it.min.js"></script>
-  <script src="https://cdn.staticfile.org/highlight.js/11.7.0/highlight.min.js"></script>
   <link rel="stylesheet" href="https://cdn.staticfile.org/KaTeX/0.16.4/katex.min.css">
-  <script src="https://cdn.staticfile.org/KaTeX/0.16.4/katex.min.js"></script>
   <link rel="stylesheet" href="https://npm.elemecdn.com/markdown-it-texmath@1.0.0/css/texmath.css">
-  <script src="https://npm.elemecdn.com/markdown-it-texmath@1.0.0/texmath.js"></script>
-  <!--  Logic     -->
-  <script src="./main.js"></script>
-
 </head>
 
 <body>
@@ -34,231 +26,298 @@
   <input type="hidden" id="conversations">
   <input type="hidden" id="query" value="">
   <input type="hidden" id="reply" value="">
-  <div class="row">
-    <div class="leftColumn">
-      <label for="logout"></label><a class="member" href="/.auth/logout">Logout</a></label>
-      <br />
-      <section class="msger">
-        <header class="msger-header">
-          <div class="msger-header-title">
-            <i class="fas fa-comment-alt"></i> Chat <span id="cost"></span>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <label for="logout"></label><a class="member" href="/.auth/logout" id="logout">Logout</a></label>
+              <form class="form-inline nonmember">
+                <div class="form-group nonmember">
+                  <label for="configFileInput" class="nonmember">Config File (<a href="config.json"
+                      target="_blank">Sample</a>):</label>
+                  <input type="file" id="configFileInput" class="form-control nonmember">
+                </div>
+              </form>
+            </div>
           </div>
-          <div class="msger-header-options">
-            <span><i class="fas fa-cog"></i></span>
+          <div class="row">
+            <div class="col-12">
+              <section class="msger">
+                <header class="msger-header">
+                  <div class="msger-header-title">
+                    <i class="fas fa-comment-alt"></i> Chat <span id="cost"></span>
+                  </div>
+                  <div class="msger-header-options">
+                    <span><i class="fas fa-cog"></i></span>
+                  </div>
+                </header>
+                <main class="msger-chat">
+                </main>
+                <form class="msger-inputarea">
+                  <input type="text" class="msger-input" id="prompt" placeholder="Enter your message...">
+                  <button type="submit" class="msger-send-btn">Send</button>
+                  <button id="recButton" class="recrodingButton"></button>
+                </form>
+              </section>
+            </div>
           </div>
-        </header>
-        <main class="msger-chat">
-        </main>
-        <form class="msger-inputarea">
-          <input type="text" class="msger-input" id="prompt" placeholder="Enter your message...">
-          <button type="submit" class="msger-send-btn">Send</button>
-          <button id="recButton" class="recrodingButton"></button>
-        </form>
-      </section>
-      <audio id="voice"></audio>
-      <div class="settings">
-        <label for="configFileInput" class="nonmember">Config File (<a href="config.json"
-            target="_blank">Sample</a>):</label>
-        <input type="file" id="configFileInput" class="nonmember"><br class="nonmember" />
-        <label for="language">Language</label>
-        <select name="language" id="language">
-          <option value='af-ZA'>Afrikaans (South Africa)</option>
-          <option value='am-ET'>Amharic (Ethiopia)</option>
-          <option value='ar-AE'>Arabic (United Arab Emirates)</option>
-          <option value='ar-BH'>Arabic (Bahrain)</option>
-          <option value='ar-DZ'>Arabic (Algeria)</option>
-          <option value='ar-EG'>Arabic (Egypt)</option>
-          <option value='ar-IL'>Arabic (Israel)</option>
-          <option value='ar-IQ'>Arabic (Iraq)</option>
-          <option value='ar-JO'>Arabic (Jordan)</option>
-          <option value='ar-KW'>Arabic (Kuwait)</option>
-          <option value='ar-LB'>Arabic (Lebanon)</option>
-          <option value='ar-LY'>Arabic (Libya)</option>
-          <option value='ar-MA'>Arabic (Morocco)</option>
-          <option value='ar-OM'>Arabic (Oman)</option>
-          <option value='ar-PS'>Arabic (Palestinian Territories)</option>
-          <option value='ar-QA'>Arabic (Qatar)</option>
-          <option value='ar-SA'>Arabic (Saudi Arabia)</option>
-          <option value='ar-SY'>Arabic (Syria)</option>
-          <option value='ar-TN'>Arabic (Tunisia)</option>
-          <option value='ar-YE'>Arabic (Yemen)</option>
-          <option value='az-AZ'>Azerbaijani (Latin, Azerbaijan)</option>
-          <option value='bg-BG'>Bulgarian (Bulgaria)</option>
-          <option value='bn-IN'>Bengali (India)</option>
-          <option value='bs-BA'>Bosnian (Bosnia and Herzegovina)</option>
-          <option value='ca-ES'>Catalan (Spain)</option>
-          <option value='cs-CZ'>Czech (Czechia)</option>
-          <option value='cy-GB'>Welsh (United Kingdom)</option>
-          <option value='da-DK'>Danish (Denmark)</option>
-          <option value='de-AT'>German (Austria)</option>
-          <option value='de-CH'>German (Switzerland)</option>
-          <option value='de-DE'>German (Germany)</option>
-          <option value='el-GR'>Greek (Greece)</option>
-          <option value='en-AU'>English (Australia)</option>
-          <option value='en-CA'>English (Canada)</option>
-          <option value='en-GB'>English (United Kingdom)</option>
-          <option value='en-GH'>English (Ghana)</option>
-          <option value='en-HK'>English (Hong Kong SAR)</option>
-          <option value='en-IE'>English (Ireland)</option>
-          <option value='en-IN'>English (India)</option>
-          <option value='en-KE'>English (Kenya)</option>
-          <option value='en-NG'>English (Nigeria)</option>
-          <option value='en-NZ'>English (New Zealand)</option>
-          <option value='en-PH'>English (Philippines)</option>
-          <option value='en-SG'>English (Singapore)</option>
-          <option value='en-TZ'>English (Tanzania)</option>
-          <option value='en-US'>English (United States)</option>
-          <option value='en-ZA'>English (South Africa)</option>
-          <option value='es-AR'>Spanish (Argentina)</option>
-          <option value='es-BO'>Spanish (Bolivia)</option>
-          <option value='es-CL'>Spanish (Chile)</option>
-          <option value='es-CO'>Spanish (Colombia)</option>
-          <option value='es-CR'>Spanish (Costa Rica)</option>
-          <option value='es-CU'>Spanish (Cuba)</option>
-          <option value='es-DO'>Spanish (Dominican Republic)</option>
-          <option value='es-EC'>Spanish (Ecuador)</option>
-          <option value='es-ES'>Spanish (Spain)</option>
-          <option value='es-GQ'>Spanish (Equatorial Guinea)</option>
-          <option value='es-GT'>Spanish (Guatemala)</option>
-          <option value='es-HN'>Spanish (Honduras)</option>
-          <option value='es-MX'>Spanish (Mexico)</option>
-          <option value='es-NI'>Spanish (Nicaragua)</option>
-          <option value='es-PA'>Spanish (Panama)</option>
-          <option value='es-PE'>Spanish (Peru)</option>
-          <option value='es-PR'>Spanish (Puerto Rico)</option>
-          <option value='es-PY'>Spanish (Paraguay)</option>
-          <option value='es-SV'>Spanish (El Salvador)</option>
-          <option value='es-US'>Spanish (United States)</option>
-          <option value='es-UY'>Spanish (Uruguay)</option>
-          <option value='es-VE'>Spanish (Venezuela)</option>
-          <option value='et-EE'>Estonian (Estonia)</option>
-          <option value='eu-ES'>Basque</option>
-          <option value='fa-IR'>Persian (Iran)</option>
-          <option value='fi-FI'>Finnish (Finland)</option>
-          <option value='fil-PH'>Filipino (Philippines)</option>
-          <option value='fr-BE'>French (Belgium)</option>
-          <option value='fr-CA'>French (Canada)</option>
-          <option value='fr-CH'>French (Switzerland)</option>
-          <option value='fr-FR'>French (France)</option>
-          <option value='ga-IE'>Irish (Ireland)</option>
-          <option value='gl-ES'>Galician</option>
-          <option value='gu-IN'>Gujarati (India)</option>
-          <option value='he-IL'>Hebrew (Israel)</option>
-          <option value='hi-IN'>Hindi (India)</option>
-          <option value='hr-HR'>Croatian (Croatia)</option>
-          <option value='hu-HU'>Hungarian (Hungary)</option>
-          <option value='hy-AM'>Armenian (Armenia)</option>
-          <option value='id-ID'>Indonesian (Indonesia)</option>
-          <option value='is-IS'>Icelandic (Iceland)</option>
-          <option value='it-CH'>Italian (Switzerland)</option>
-          <option value='it-IT'>Italian (Italy)</option>
-          <option value='ja-JP'>Japanese (Japan)</option>
-          <option value='jv-ID'>Javanese (Latin, Indonesia)</option>
-          <option value='ka-GE'>Georgian (Georgia)</option>
-          <option value='kk-KZ'>Kazakh (Kazakhstan)</option>
-          <option value='km-KH'>Khmer (Cambodia)</option>
-          <option value='kn-IN'>Kannada (India)</option>
-          <option value='ko-KR'>Korean (Korea)</option>
-          <option value='lo-LA'>Lao (Laos)</option>
-          <option value='lt-LT'>Lithuanian (Lithuania)</option>
-          <option value='lv-LV'>Latvian (Latvia)</option>
-          <option value='mk-MK'>Macedonian (North Macedonia)</option>
-          <option value='ml-IN'>Malayalam (India)</option>
-          <option value='mn-MN'>Mongolian (Mongolia)</option>
-          <option value='mr-IN'>Marathi (India)</option>
-          <option value='ms-MY'>Malay (Malaysia)</option>
-          <option value='mt-MT'>Maltese (Malta)</option>
-          <option value='my-MM'>Burmese (Myanmar)</option>
-          <option value='nb-NO'>Norwegian (Bokmål, Norway)</option>
-          <option value='ne-NP'>Nepali (Nepal)</option>
-          <option value='nl-BE'>Dutch (Belgium)</option>
-          <option value='nl-NL'>Dutch (Netherlands)</option>
-          <option value='pl-PL'>Polish (Poland)</option>
-          <option value='ps-AF'>Pashto (Afghanistan)</option>
-          <option value='pt-BR'>Portuguese (Brazil)</option>
-          <option value='pt-PT'>Portuguese (Portugal)</option>
-          <option value='ro-RO'>Romanian (Romania)</option>
-          <option value='ru-RU'>Russian (Russia)</option>
-          <option value='si-LK'>Sinhala (Sri Lanka)</option>
-          <option value='sk-SK'>Slovak (Slovakia)</option>
-          <option value='sl-SI'>Slovenian (Slovenia)</option>
-          <option value='so-SO'>Somali (Somalia)</option>
-          <option value='sq-AL'>Albanian (Albania)</option>
-          <option value='sr-RS'>Serbian (Cyrillic, Serbia)</option>
-          <option value='sv-SE'>Swedish (Sweden)</option>
-          <option value='sw-KE'>Swahili (Kenya)</option>
-          <option value='sw-TZ'>Swahili (Tanzania)</option>
-          <option value='ta-IN'>Tamil (India)</option>
-          <option value='te-IN'>Telugu (India)</option>
-          <option value='th-TH'>Thai (Thailand)</option>
-          <option value='tr-TR'>Turkish (Turkey)</option>
-          <option value='uk-UA'>Ukrainian (Ukraine)</option>
-          <option value='uz-UZ'>Uzbek (Latin, Uzbekistan)</option>
-          <option value='vi-VN'>Vietnamese (Vietnam)</option>
-          <option value='wuu-CN'>Chinese (Wu, Simplified)</option>
-          <option value='yue-CN'>Chinese (Cantonese, Simplified)</option>
-          <option value='zh-CN'>Chinese (Mandarin, Simplified)</option>
-          <option value='zh-CN-sichuan'>Chinese (Southwestern Mandarin, Simplified)</option>
-          <option value='zh-HK' selected="selected">Chinese (Cantonese, Traditional)</option>
-          <option value='zh-TW'>Chinese (Taiwanese Mandarin, Traditional)</option>
-          <option value='zu-ZA'>Zulu (South Africa)</option>
-        </select>
-        <br>
-        <label for="model">Model</label>
-        <select name="model" id="model">
-          <option value='text-ada-001'>text-ada-001</option>
-          <option value='text-curie-001'>text-curie-001</option>
-          <option value='text-davinci-002'>text-davinci-002</option>
-          <option value='code-davinci-002'>code-davinci-002</option>
-          <option value='text-davinci-003'>text-davinci-003</option>
-          <option value='gpt-35-turbo' selected="selected">gpt-35-turbo</option>
-          <option value='gpt-4-32k'>gpt-4-32k</option>
-          <option value='gpt-4'>gpt-4</option>
-        </select>
-        <br>
-        <label for="max_tokens">Max response tokens:</label> <output>(800)</output>
-        <input type="range" id="max_tokens" name="max_tokens" min="300" max="3000" value="800" step="10"
-          oninput="this.previousElementSibling.value = '(' + this.value +')'">
-        <br />
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <form class="form-inline">
+                <button type="button" id="share-screen" class="btn btn-primary mb-2">Share Screen</button>
+                <div class="form-group">
+                  <label for="awesome-chatgpt-prompts">Act as:</label>
+                  <select name="awesome-chatgpt-prompts" id="awesome-chatgpt-prompts" class="form-control">
+                  </select>
+                </div>
+              </form>
+              <h5>Settings</h5>
+              <audio id="voice"></audio>
+              <form class="form-inline">
+                <div class="form-group member">
+                  <label for="taskId">Task ID:</label><input type="text" class="form-control" id="taskId">
+                </div>
 
-        <label for="temperature">Temperature:</label><output>(1)</output>
-        <input type="range" id="temperature" name="temperature" min="0" max="1" value="1" step="0.05"
-          oninput="this.previousElementSibling.value = '(' + this.value +')'">
-        <br />
+                <div class="form-group">
+                  <label for="model">Model:</label>
+                  <select name="model" id="model" class="form-control">
+                    <option value='text-ada-001'>text-ada-001</option>
+                    <option value='text-curie-001'>text-curie-001</option>
+                    <option value='text-davinci-002'>text-davinci-002</option>
+                    <option value='code-davinci-002'>code-davinci-002</option>
+                    <option value='text-davinci-003'>text-davinci-003</option>
+                    <option value='gpt-35-turbo' selected="selected">gpt-35-turbo</option>
+                    <option value='gpt-4-32k'>gpt-4-32k</option>
+                    <option value='gpt-4'>gpt-4</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="language">Voice Language:</label>
+                  <select name="language" id="language" class="form-control">
+                    <option value='af-ZA'>Afrikaans (South Africa)</option>
+                    <option value='am-ET'>Amharic (Ethiopia)</option>
+                    <option value='ar-AE'>Arabic (United Arab Emirates)</option>
+                    <option value='ar-BH'>Arabic (Bahrain)</option>
+                    <option value='ar-DZ'>Arabic (Algeria)</option>
+                    <option value='ar-EG'>Arabic (Egypt)</option>
+                    <option value='ar-IL'>Arabic (Israel)</option>
+                    <option value='ar-IQ'>Arabic (Iraq)</option>
+                    <option value='ar-JO'>Arabic (Jordan)</option>
+                    <option value='ar-KW'>Arabic (Kuwait)</option>
+                    <option value='ar-LB'>Arabic (Lebanon)</option>
+                    <option value='ar-LY'>Arabic (Libya)</option>
+                    <option value='ar-MA'>Arabic (Morocco)</option>
+                    <option value='ar-OM'>Arabic (Oman)</option>
+                    <option value='ar-PS'>Arabic (Palestinian Territories)</option>
+                    <option value='ar-QA'>Arabic (Qatar)</option>
+                    <option value='ar-SA'>Arabic (Saudi Arabia)</option>
+                    <option value='ar-SY'>Arabic (Syria)</option>
+                    <option value='ar-TN'>Arabic (Tunisia)</option>
+                    <option value='ar-YE'>Arabic (Yemen)</option>
+                    <option value='az-AZ'>Azerbaijani (Latin, Azerbaijan)</option>
+                    <option value='bg-BG'>Bulgarian (Bulgaria)</option>
+                    <option value='bn-IN'>Bengali (India)</option>
+                    <option value='bs-BA'>Bosnian (Bosnia and Herzegovina)</option>
+                    <option value='ca-ES'>Catalan (Spain)</option>
+                    <option value='cs-CZ'>Czech (Czechia)</option>
+                    <option value='cy-GB'>Welsh (United Kingdom)</option>
+                    <option value='da-DK'>Danish (Denmark)</option>
+                    <option value='de-AT'>German (Austria)</option>
+                    <option value='de-CH'>German (Switzerland)</option>
+                    <option value='de-DE'>German (Germany)</option>
+                    <option value='el-GR'>Greek (Greece)</option>
+                    <option value='en-AU'>English (Australia)</option>
+                    <option value='en-CA'>English (Canada)</option>
+                    <option value='en-GB'>English (United Kingdom)</option>
+                    <option value='en-GH'>English (Ghana)</option>
+                    <option value='en-HK'>English (Hong Kong SAR)</option>
+                    <option value='en-IE'>English (Ireland)</option>
+                    <option value='en-IN'>English (India)</option>
+                    <option value='en-KE'>English (Kenya)</option>
+                    <option value='en-NG'>English (Nigeria)</option>
+                    <option value='en-NZ'>English (New Zealand)</option>
+                    <option value='en-PH'>English (Philippines)</option>
+                    <option value='en-SG'>English (Singapore)</option>
+                    <option value='en-TZ'>English (Tanzania)</option>
+                    <option value='en-US'>English (United States)</option>
+                    <option value='en-ZA'>English (South Africa)</option>
+                    <option value='es-AR'>Spanish (Argentina)</option>
+                    <option value='es-BO'>Spanish (Bolivia)</option>
+                    <option value='es-CL'>Spanish (Chile)</option>
+                    <option value='es-CO'>Spanish (Colombia)</option>
+                    <option value='es-CR'>Spanish (Costa Rica)</option>
+                    <option value='es-CU'>Spanish (Cuba)</option>
+                    <option value='es-DO'>Spanish (Dominican Republic)</option>
+                    <option value='es-EC'>Spanish (Ecuador)</option>
+                    <option value='es-ES'>Spanish (Spain)</option>
+                    <option value='es-GQ'>Spanish (Equatorial Guinea)</option>
+                    <option value='es-GT'>Spanish (Guatemala)</option>
+                    <option value='es-HN'>Spanish (Honduras)</option>
+                    <option value='es-MX'>Spanish (Mexico)</option>
+                    <option value='es-NI'>Spanish (Nicaragua)</option>
+                    <option value='es-PA'>Spanish (Panama)</option>
+                    <option value='es-PE'>Spanish (Peru)</option>
+                    <option value='es-PR'>Spanish (Puerto Rico)</option>
+                    <option value='es-PY'>Spanish (Paraguay)</option>
+                    <option value='es-SV'>Spanish (El Salvador)</option>
+                    <option value='es-US'>Spanish (United States)</option>
+                    <option value='es-UY'>Spanish (Uruguay)</option>
+                    <option value='es-VE'>Spanish (Venezuela)</option>
+                    <option value='et-EE'>Estonian (Estonia)</option>
+                    <option value='eu-ES'>Basque</option>
+                    <option value='fa-IR'>Persian (Iran)</option>
+                    <option value='fi-FI'>Finnish (Finland)</option>
+                    <option value='fil-PH'>Filipino (Philippines)</option>
+                    <option value='fr-BE'>French (Belgium)</option>
+                    <option value='fr-CA'>French (Canada)</option>
+                    <option value='fr-CH'>French (Switzerland)</option>
+                    <option value='fr-FR'>French (France)</option>
+                    <option value='ga-IE'>Irish (Ireland)</option>
+                    <option value='gl-ES'>Galician</option>
+                    <option value='gu-IN'>Gujarati (India)</option>
+                    <option value='he-IL'>Hebrew (Israel)</option>
+                    <option value='hi-IN'>Hindi (India)</option>
+                    <option value='hr-HR'>Croatian (Croatia)</option>
+                    <option value='hu-HU'>Hungarian (Hungary)</option>
+                    <option value='hy-AM'>Armenian (Armenia)</option>
+                    <option value='id-ID'>Indonesian (Indonesia)</option>
+                    <option value='is-IS'>Icelandic (Iceland)</option>
+                    <option value='it-CH'>Italian (Switzerland)</option>
+                    <option value='it-IT'>Italian (Italy)</option>
+                    <option value='ja-JP'>Japanese (Japan)</option>
+                    <option value='jv-ID'>Javanese (Latin, Indonesia)</option>
+                    <option value='ka-GE'>Georgian (Georgia)</option>
+                    <option value='kk-KZ'>Kazakh (Kazakhstan)</option>
+                    <option value='km-KH'>Khmer (Cambodia)</option>
+                    <option value='kn-IN'>Kannada (India)</option>
+                    <option value='ko-KR'>Korean (Korea)</option>
+                    <option value='lo-LA'>Lao (Laos)</option>
+                    <option value='lt-LT'>Lithuanian (Lithuania)</option>
+                    <option value='lv-LV'>Latvian (Latvia)</option>
+                    <option value='mk-MK'>Macedonian (North Macedonia)</option>
+                    <option value='ml-IN'>Malayalam (India)</option>
+                    <option value='mn-MN'>Mongolian (Mongolia)</option>
+                    <option value='mr-IN'>Marathi (India)</option>
+                    <option value='ms-MY'>Malay (Malaysia)</option>
+                    <option value='mt-MT'>Maltese (Malta)</option>
+                    <option value='my-MM'>Burmese (Myanmar)</option>
+                    <option value='nb-NO'>Norwegian (Bokmål, Norway)</option>
+                    <option value='ne-NP'>Nepali (Nepal)</option>
+                    <option value='nl-BE'>Dutch (Belgium)</option>
+                    <option value='nl-NL'>Dutch (Netherlands)</option>
+                    <option value='pl-PL'>Polish (Poland)</option>
+                    <option value='ps-AF'>Pashto (Afghanistan)</option>
+                    <option value='pt-BR'>Portuguese (Brazil)</option>
+                    <option value='pt-PT'>Portuguese (Portugal)</option>
+                    <option value='ro-RO'>Romanian (Romania)</option>
+                    <option value='ru-RU'>Russian (Russia)</option>
+                    <option value='si-LK'>Sinhala (Sri Lanka)</option>
+                    <option value='sk-SK'>Slovak (Slovakia)</option>
+                    <option value='sl-SI'>Slovenian (Slovenia)</option>
+                    <option value='so-SO'>Somali (Somalia)</option>
+                    <option value='sq-AL'>Albanian (Albania)</option>
+                    <option value='sr-RS'>Serbian (Cyrillic, Serbia)</option>
+                    <option value='sv-SE'>Swedish (Sweden)</option>
+                    <option value='sw-KE'>Swahili (Kenya)</option>
+                    <option value='sw-TZ'>Swahili (Tanzania)</option>
+                    <option value='ta-IN'>Tamil (India)</option>
+                    <option value='te-IN'>Telugu (India)</option>
+                    <option value='th-TH'>Thai (Thailand)</option>
+                    <option value='tr-TR'>Turkish (Turkey)</option>
+                    <option value='uk-UA'>Ukrainian (Ukraine)</option>
+                    <option value='uz-UZ'>Uzbek (Latin, Uzbekistan)</option>
+                    <option value='vi-VN'>Vietnamese (Vietnam)</option>
+                    <option value='wuu-CN'>Chinese (Wu, Simplified)</option>
+                    <option value='yue-CN'>Chinese (Cantonese, Simplified)</option>
+                    <option value='zh-CN'>Chinese (Mandarin, Simplified)</option>
+                    <option value='zh-CN-sichuan'>Chinese (Southwestern Mandarin, Simplified)</option>
+                    <option value='zh-HK' selected="selected">Chinese (Cantonese, Traditional)</option>
+                    <option value='zh-TW'>Chinese (Taiwanese Mandarin, Traditional)</option>
+                    <option value='zu-ZA'>Zulu (South Africa)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="max_tokens">Max response tokens:</label> <output>(800)</output>
+                  <input type="range" id="max_tokens" name="max_tokens" min="300" max="3000" value="800" step="10"
+                    oninput="this.previousElementSibling.value = '(' + this.value +')'" class="form-control">
+                </div>
 
+                <div class="form-group">
+                  <label for="temperature">Temperature:</label><output>(1)</output>
+                  <input type="range" id="temperature" name="temperature" min="0" max="1" value="1" step="0.05"
+                    oninput="this.previousElementSibling.value = '(' + this.value +')'" class="form-control">
+                </div>
 
-        <label for="top_p">Top probabilities:</label><output>(0.95)</output>
-        <input type="range" id="top_p" name="top_p" min="0" max="1" value="0.95" step="0.05"
-          oninput="this.previousElementSibling.value = '(' + this.value +')'">
-        <br />
+                <div class="form-group">
+                  <label for="top_p">Top probabilities:</label><output>(0.95)</output>
+                  <input type="range" id="top_p" name="top_p" min="0" max="1" value="0.95" step="0.05"
+                    oninput="this.previousElementSibling.value = '(' + this.value +')'" class="form-control">
+                </div>
 
+                <div class="form-group">
+                  <label for="frequency_penalty">Frequency Penalty:</label><output>(2)</output>
+                  <input type="range" id="frequency_penalty" name="frequency_penalty" min="0" max="2" value="2"
+                    step="0.05" oninput="this.previousElementSibling.value = '(' + this.value +')'"
+                    class="form-control">
+                </div>
 
-        <label for="frequency_penalty">Frequency Penalty:</label><output>(2)</output>
-        <input type="range" id="frequency_penalty" name="frequency_penalty" min="0" max="2" value="2" step="0.05"
-          oninput="this.previousElementSibling.value = '(' + this.value +')'">
-        <br />
+                <div class="form-group">
+                  <label for="presence_penalty">Presence Penalty:</label><output>(2)</output>
+                  <input type="range" id="presence_penalty" name="presence_penalty" min="0" max="2" value="2"
+                    step="0.05" ooninput="this.previousElementSibling.value = '(' + this.value +')'"
+                    class="form-control">
+                </div>
 
-
-        <label for="presence_penalty">Presence Penalty:</label><output>(2)</output>
-        <input type="range" id="presence_penalty" name="presence_penalty" min="0" max="2" value="2" step="0.05"
-          ooninput="this.previousElementSibling.value = '(' + this.value +')'">
-        <br />
-
-        <label for="best_of">Best of:</label><output>(1)</output>
-
-        <input type="range" id="best_of" name="best_of" min="1" max="20" value="1" step="1"
-          oninput="this.previousElementSibling.value = '(' + this.value +')'">
-        <br />
-
-        <label for="awesome-chatgpt-prompts">Act as:</label>
-        <select name="awesome-chatgpt-prompts" id="awesome-chatgpt-prompts">
-        </select>
+                <div class="form-group">
+                  <label for="best_of">Best of:</label><output>(1)</output>
+                  <input type="range" id="best_of" name="best_of" min="1" max="20" value="1" step="1"
+                    oninput="this.previousElementSibling.value = '(' + this.value +')'" class="form-control">
+                </div>
+               
+              </form>
+              <video id="shared-screen" style="height: 1px; width: 1px;" autoplay></video>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div id="character"></div>
       </div>
     </div>
-    <div class="rightColumn">
-      <div id="character"></div>
-    </div>
   </div>
+
+
+  <!-- Pollyfill script -->
+  <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+  <!-- Live2DCubismCore script -->
+  <script src="Core/live2dcubismcore.js"></script>
+  <!-- Build script -->
+  <script src="./dist/bundle.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="https://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js" crossorigin="anonymous"></script>
+
+  <!--  Markdown     -->
+  <script src="https://cdn.staticfile.org/markdown-it/13.0.1/markdown-it.min.js"></script>
+  <script src="https://cdn.staticfile.org/highlight.js/11.7.0/highlight.min.js"></script>
+  <script src="https://cdn.staticfile.org/KaTeX/0.16.4/katex.min.js"></script>
+  <script src="https://npm.elemecdn.com/markdown-it-texmath@1.0.0/texmath.js"></script>
+
+
+  <!--  Logic     -->
+  <script src="./js/index.js"></script>
 </body>
 
 </html>
