@@ -25,7 +25,7 @@ For Cantonese
 
 ## Deployment
 1. Login Azure CLI ```az login --use-device-code```
-2. Open a terminal ```export GITHUB_TOKEN=xxxxx``` with your GitHub Token.
+2. Open a terminal ```export GITHUB_TOKEN_DEPLOYMENT=xxxxx``` with your GitHub Token. Or, create .env from .env.template .
 3. Run ```./deploy.sh```
 4. After the deployment completed, you will have a new repo uniquePrefix+"AzureOpenAILive2DChatbotCICD".
 5. Rerun the failed GitHub Actions.

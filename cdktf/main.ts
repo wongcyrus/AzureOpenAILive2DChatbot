@@ -11,6 +11,9 @@ import { CognitiveAccountConstruct } from "./components/cognitive";
 import { StaticSiteConstruct } from "./components/static-site";
 import { GitHubConstruct } from "./components/github";
 
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 class AzureOpenAiLive2DChatbotStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);

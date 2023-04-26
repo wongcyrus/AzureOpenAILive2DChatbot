@@ -16,7 +16,7 @@ export class GitHubConstruct extends Construct {
         super(scope, id);
 
         new GithubProvider(this, "GitHubProvider", {
-            token: process.env.GITHUB_TOKEN,
+            token: process.env.GITHUB_TOKEN_DEPLOYMENT,
         });
         new Repository(this, "Repository", {
             name: props.repository,
@@ -46,7 +46,7 @@ export class GitHubConstruct extends Construct {
             plaintextValue: props.apiToken
         });
 
-        
+
 
     }
 }

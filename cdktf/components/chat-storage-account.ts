@@ -48,8 +48,13 @@ export class ChatStorageAccountConstruct extends Construct {
       storageAccountName: this.chatStorageAccount.name,
     });
 
+    new StorageTable(this, "marksStorageTable", {
+      name: "marks",
+      storageAccountName: this.chatStorageAccount.name,
+    });
+
     new StorageContainer(this, "chatStorageBlob", {
-      name: "voice",
+      name: "voices",
       storageAccountName: this.chatStorageAccount.name,
       containerAccessType: "blob",
     });
@@ -61,7 +66,7 @@ export class ChatStorageAccountConstruct extends Construct {
         enabled: true,
         filters: {
           blobTypes: ["blockBlob"],
-          prefixMatch: ["voice/*"]
+          prefixMatch: ["voices/"]
         },
         actions: {
           baseBlob: {
@@ -72,7 +77,7 @@ export class ChatStorageAccountConstruct extends Construct {
     });
 
     new StorageContainer(this, "screenStorageBlob", {
-      name: "screen",
+      name: "screens",
       storageAccountName: this.chatStorageAccount.name,
       containerAccessType: "blob",
     });
@@ -84,11 +89,11 @@ export class ChatStorageAccountConstruct extends Construct {
         enabled: true,
         filters: {
           blobTypes: ["blockBlob"],
-          prefixMatch: ["screen/*"]
+          prefixMatch: ["screens/"]
         },
         actions: {
           baseBlob: {
-            deleteAfterDaysSinceModificationGreaterThan: 7
+            deleteAfterDaysSinceModificationGreaterThan: 2
           }
         }
       }]
