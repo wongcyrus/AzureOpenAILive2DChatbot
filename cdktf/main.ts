@@ -9,6 +9,7 @@ import { AzapiProvider } from "./.gen/providers/azapi/provider";
 import { ChatStorageAccountConstruct } from "./components/chat-storage-account";
 import { CognitiveAccountConstruct } from "./components/cognitive";
 import { StaticSiteConstruct } from "./components/static-site";
+import { GithubProvider } from "@cdktf/provider-github/lib/provider";
 import { GitHubConstruct } from "./components/github";
 
 import * as dotenv from 'dotenv';
@@ -28,22 +29,26 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
     new AzureadProvider(this, "azuread", {});
     new AzapiProvider(this, "azapi", {});
 
+    const githubProvider = new GithubProvider(this, "GitHubProvider", {
+      token: process.env.GITHUB_TOKEN_DEPLOYMENT,
+    });
+
     const repository = "AzureOpenAILive2DChatbotCICD";
-    const uniquePrefix = "ivemvp";
+    let uniquePrefix = "ivemvp";
     const region = "eastasia";
 
 
-    const resourceGroup = new ResourceGroup(this, 'resourceGroup', {
+    let resourceGroup = new ResourceGroup(this, 'resourceGroup', {
       name: uniquePrefix + `azure-openai-live2d-chatbot`,
       location: region,
     });
 
-    const chatStorageAccountConstruct = new ChatStorageAccountConstruct(this, "chatStorageAccount", {
+    const cognitiveAccountConstruct = new CognitiveAccountConstruct(this, "cognitiveAccount", {
       uniquePrefix: uniquePrefix,
       resourceGroup: resourceGroup
     });
 
-    const cognitiveAccountConstruct = new CognitiveAccountConstruct(this, "cognitiveAccount", {
+    const chatStorageAccountConstruct = new ChatStorageAccountConstruct(this, "chatStorageAccount", {
       uniquePrefix: uniquePrefix,
       resourceGroup: resourceGroup
     });
@@ -62,6 +67,7 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
       clientID: staticSiteConstruct.live2DApplication.id,
       clientSecret: staticSiteConstruct.live2DApplicationPassword.value,
       apiToken: staticSiteConstruct.live2DStaticSite.apiKey,
+      githubProvider
     });
 
     new TerraformOutput(this, "live2DStaticSiteApiKey", {

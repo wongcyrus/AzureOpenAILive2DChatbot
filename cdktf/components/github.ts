@@ -9,15 +9,14 @@ export interface GitHubProps {
     repository: string;
     clientID: string;
     clientSecret: string;
+    githubProvider:GithubProvider;
 }
 
 export class GitHubConstruct extends Construct {
     constructor(scope: Construct, id: string, props: GitHubProps) {
         super(scope, id);
 
-        new GithubProvider(this, "GitHubProvider", {
-            token: process.env.GITHUB_TOKEN_DEPLOYMENT,
-        });
+
         new Repository(this, "Repository", {
             name: props.repository,
             visibility: "public",
