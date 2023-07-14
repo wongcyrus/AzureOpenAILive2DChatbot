@@ -256,10 +256,6 @@ export class LAppDelegate {
     return this._textureManager;
   }
 
-  public startVoiceConversation(language: string, data: Blob) {
-    LAppLive2DManager.getInstance().startVoiceConversation(language, data);
-  }
-
   /**
    * コンストラクタ
    */
@@ -439,4 +435,3 @@ function onTouchCancel(e: TouchEvent): void {
 
   LAppDelegate.getInstance()._view.onTouchesEnded(posX, posY);
 }
-

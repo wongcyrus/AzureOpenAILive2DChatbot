@@ -87,6 +87,14 @@ declare namespace Live2DCubismCore {
     }
     /** Cubism moc. */
     class Moc {
+        /**
+         * Checks consistency of a moc.
+         *
+         * @param mocBytes Moc bytes.
+         *
+         * @returns '1' if Moc is valid; '0' otherwise.
+         */
+        hasMocConsistency(mocBytes: ArrayBuffer): number;
         /** Creates [[Moc]] from [[ArrayBuffer]].
          *
          * @param buffer Array buffer
@@ -338,6 +346,20 @@ declare namespace Live2DCubismCore {
          * @return [[true]] if bit set; [[false]] otherwise
         */
         static hasBlendColorDidChangeBit(bitfield: number): boolean;
+    }
+    /** Memory functions. */
+    class Memory {
+        /**
+         * HACK:
+         * Extend memory size allocated during module initialization.
+         * If the specified size is less than or equal to 16777216(byte), the default of 16 MB is allocated.
+         *
+         * @see https://github.com/emscripten-core/emscripten/blob/main/src/settings.js#L161
+         *
+         * @param size allocated memory size [byte(s)]
+         */
+        static initializeAmountOfMemory(size: number): void;
+        private constructor();
     }
     /** Emscripten Cubism Core module. */
 }

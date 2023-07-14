@@ -30,7 +30,7 @@ export const ViewLogicalMaxBottom = -2.0;
 export const ViewLogicalMaxTop = 2.0;
 
 // 相対パス
-export const ResourcesPath = './Resources/';
+export const ResourcesPath = '../../Resources/';
 
 // モデルの後ろにある背景の画像ファイル
 export const BackImageName = 'back_class_normal.png';
@@ -45,12 +45,13 @@ export const PowerImageName = 'CloseNormal.png';
 // モデルを配置したディレクトリ名の配列
 // ディレクトリ名とmodel3.jsonの名前を一致させておくこと
 export const ModelDir: string[] = [
-  'Haru',
-  'Hiyori',
-  'Mark',
-  'Natori',
-  'Rice',
-  'Mao'
+  // 'Haru',
+  // 'Hiyori',
+  // 'Mark',
+  // 'Natori',
+  // 'Rice',
+  // 'Mao',
+  'IwiBee'
 ];
 export const ModelDirSize: number = ModelDir.length;
 
@@ -67,6 +68,9 @@ export const PriorityNone = 0;
 export const PriorityIdle = 1;
 export const PriorityNormal = 2;
 export const PriorityForce = 3;
+
+// MOC3の一貫性検証オプション
+export const MOCConsistencyValidationEnable = true;
 
 // デバッグ用ログの表示オプション
 export const DebugLogEnable = true;

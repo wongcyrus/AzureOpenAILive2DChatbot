@@ -1,0 +1,6 @@
+numpy
+live2d
+cv2
+opencv-python>4
+numba
+scipy>0.16
