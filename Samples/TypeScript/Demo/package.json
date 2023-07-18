@@ -26,6 +26,7 @@
     "webpack-dev-server": "^4.15.0"
   },
   "dependencies": {
+    "vercel": "^31.0.3",
     "whatwg-fetch": "^3.6.2"
   },
   "optionalDependencies": {
