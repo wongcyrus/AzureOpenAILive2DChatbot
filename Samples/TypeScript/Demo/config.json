@@ -1,6 +1,0 @@
-{
-  "openaiurl": "https://<CHANGEHERE>.openai.azure.com/openai/deployments/<CHANGEHERE>/completions?api-version=2022-12-01",
-  "openaipikey": "",
-  "ttsregion": "",
-  "ttsapikey": ""
-}

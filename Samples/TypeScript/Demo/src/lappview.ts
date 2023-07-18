@@ -221,9 +221,9 @@ export class LAppView {
       live2DManager.onTap(x, y);
 
       // 歯車にタップしたか
-      // if (this._gear.isHit(pointX, pointY)) {
-      //   live2DManager.nextScene();
-      // }
+      if (this._gear.isHit(pointX, pointY)) {
+        live2DManager.nextScene();
+      }
     }
   }
 

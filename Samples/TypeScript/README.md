@@ -11,8 +11,8 @@ This is a sample implementation of an application implemented with TypeScript.
 
 | Package | Version |
 | --- | --- |
-| TypeScript | 4.8.2 |
-| Webpack | 5.74.0 |
+| TypeScript | 5.0.4 |
+| Webpack | 5.82.1 |
 
 For other packages, check the `package.json` for each project.
 For other development environments and operation environments, see [README.md](/README.md) in the top directory.
@@ -21,7 +21,7 @@ For other development environments and operation environments, see [README.md](/
 ## Task list
 
 ### `npm: start`
-
+### `yarn`
 Starts a local server for development and creates a project monitor build.
 Any changes you make to the project will automatically rebuild and cause the browser to reload.
 You can debug in Visual Studio Code from [Debug Project].
@@ -29,7 +29,7 @@ You can debug in Visual Studio Code from [Debug Project].
 To terminate in Visual Studio Code, type `>Tasks: Terminate Task` and select the task from the command palette.
 
 ### `npm: build`
-
+### `yarn build`
 Outputs a TypeScript build deliverable to the `dist` directory.
 The output is a JavaScript file that has been bundled into one using Webpack.
 

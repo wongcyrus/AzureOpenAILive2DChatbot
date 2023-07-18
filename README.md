@@ -1,21 +1,12 @@
+[English](README.md) / [日本語](README.ja.md)
 
-# Live2D Virtual Assistant
+---
 
-This is a sample implementation of an application that displays models output by Live2D Cubism 4 Editor from Cubism Web Samples with Azure OpenAI and Azure Text to Speech.
+# Cubism Web Samples
+
+This is a sample implementation of an application that displays models output by Live2D Cubism 4 Editor.
 
 It is used in conjunction with the Cubism Web Framework and Live2D Cubism Core.
-
-![Live2D Azure OpenAI Chatbot Overview](Images/Live2DAzureOpenAIChatbot.png "Overview")
-
-## Demo
-For English
-
-[![Talking with Azure OpenAI Live2D Virtual Assistant with Azure Speech Services](https://img.youtube.com/vi/z-Fl_kzrDpA/0.jpg)](https://youtu.be/z-Fl_kzrDpA)
-
-For Cantonese
-
-[![廣東話互動對答Azure OpenAI 加 Azure語音服務Live2D虛擬助理示範](https://img.youtube.com/vi/0291zqM4da0/0.jpg)](https://youtu.be/0291zqM4da0)
-
 
 
 ## License
@@ -49,6 +40,7 @@ This repository does not manage Cubism Core.
 Download the Cubism SDK for Web from [here](https://www.live2d.com/download/cubism-sdk/download-web/) and copy the files in the Core directory.
 
 
+
 ## Development environment construction
 
 1. Install [Node.js] and [Visual Studio Code]
@@ -68,15 +60,6 @@ Enter `>Tasks: Run Task` in the command palette (*View > Command Palette...*) to
 For other tasks, see [README.md](Samples/TypeScript/README.md) of the sample project.
 
 NOTE: Settings for debugging are described in `.vscode/tasks.json`.
-
-### Azure OpenAI and Azure Speech service
-
-You have to create enable those 2 services yourself and collect the following 4 parameters:
-1. OpenAI Endpoint
-2. OpenAI Key
-3. Speech service Region
-4. Speech service Key
-
 
 ### Project debugging
 
@@ -101,29 +84,29 @@ Please refer to [CHANGELOG.md](CHANGELOG.md) for the changelog of this repositor
 
 ### Node.js
 
-* 18.8.0
-* 16.17.0
-* 14.20.0
+* 20.1.0
+* 18.16.0
+* 16.20.0
 
 
 ## Operation environment
 
 | Platform | Browser | Version |
 | --- | --- | --- |
-| Android | Google Chrome | 104.0.5112.97 |
-| Android | Microsoft Edge | 104.0.1293.63 |
-| Android | Mozilla Firefox | 104.1.0 |
-| iOS / iPadOS | Google Chrome | 104.0.5112.99 |
-| iOS / iPadOS | Microsoft Edge | 104.0.1293.63 |
-| iOS / iPadOS | Mozilla Firefox | 104.0 |
-| iOS / iPadOS | Safari | 15.6.1 |
-| macOS | Google Chrome | 104.0.5112.101 |
-| macOS | Microsoft Edge | 104.0.1293.70 |
-| macOS | Mozilla Firefox | 104.0 |
-| macOS | Safari | 15.6.1 |
-| Windows | Google Chrome | 104.0.5112.102 |
-| Windows | Microsoft Edge | 104.0.1293.70 |
-| Windows | Mozilla Firefox | 104.0 |
+| Android | Google Chrome | 113.0.5672.77 |
+| Android | Microsoft Edge | 113.0.1774.38 |
+| Android | Mozilla Firefox | 113.0 |
+| iOS / iPadOS | Google Chrome | 113.0.5672.109 |
+| iOS / iPadOS | Microsoft Edge | 113.0.1774.42 |
+| iOS / iPadOS | Mozilla Firefox | 113.0 |
+| iOS / iPadOS | Safari | 16.4 |
+| macOS | Google Chrome | 113.0.5672.92 |
+| macOS | Microsoft Edge | 113.0.1774.42 |
+| macOS | Mozilla Firefox | 113.0.1 |
+| macOS | Safari | 16.4 |
+| Windows | Google Chrome | 113.0.5672.93 |
+| Windows | Microsoft Edge | 113.0.1774.42 |
+| Windows | Mozilla Firefox | 113.0 |
 
 Note: You can start the server for operation check by running the `serve` script of `./Samples/TypeScript/Demo/package.json`.
 

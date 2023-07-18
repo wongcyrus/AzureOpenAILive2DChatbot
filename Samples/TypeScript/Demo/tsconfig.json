@@ -11,11 +11,13 @@
     "baseUrl": "./",
     "paths": {
       "@framework/*": ["../../../Framework/src/*"]
-    }
+    },
+    "noImplicitAny": true,
+    "useUnknownInCatchVariables": true
   },
   "include": [
     "src/**/*.ts",
-    "Core/*.ts"
+    "../../../Core/*.ts"
   ],
   "exclude": [
     "node_modules",
