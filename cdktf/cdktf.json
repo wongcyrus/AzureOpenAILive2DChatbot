@@ -4,7 +4,10 @@
   "projectId": "c2bf9074-381b-46ef-9acc-733b36b02585",
   "sendCrashReports": "true",
   "terraformProviders": [
-    "azure/azapi@~> 1.4"
+    "azure/azapi@~> 1.8.0",
+    "hashicorp/azurerm@~> 3.70.0",
+    "hashicorp/azuread@~> 2.41.0",
+    "integrations/github@~> 5.33.0"
   ],
   "terraformModules": [],
   "context": {

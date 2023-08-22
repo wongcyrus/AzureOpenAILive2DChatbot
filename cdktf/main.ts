@@ -1,15 +1,15 @@
 import { Construct } from "constructs";
 import { App, TerraformOutput, TerraformStack } from "cdktf";
-import { AzurermProvider } from "@cdktf/provider-azurerm/lib/provider";
-import { ResourceGroup } from "@cdktf/provider-azurerm/lib/resource-group";
+import { AzurermProvider } from "./.gen/providers/azurerm/provider";
+import { ResourceGroup } from "./.gen/providers/azurerm/resource-group";
 
-import { AzureadProvider } from "@cdktf/provider-azuread/lib/provider";
+import { AzureadProvider } from "./.gen/providers/azuread/provider";
 import { AzapiProvider } from "./.gen/providers/azapi/provider";
 
 import { ChatStorageAccountConstruct } from "./components/chat-storage-account";
 import { CognitiveAccountConstruct } from "./components/cognitive";
 import { StaticSiteConstruct } from "./components/static-site";
-import { GithubProvider } from "@cdktf/provider-github/lib/provider";
+import { GithubProvider } from "./.gen/providers/github/provider";
 import { GitHubConstruct } from "./components/github";
 
 import * as dotenv from 'dotenv';

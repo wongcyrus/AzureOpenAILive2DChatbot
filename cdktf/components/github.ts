@@ -1,7 +1,7 @@
 
-import { ActionsSecret } from "@cdktf/provider-github/lib/actions-secret";
-import { Repository } from "@cdktf/provider-github/lib/repository";
-import { GithubProvider } from "@cdktf/provider-github/lib/provider";
+import { ActionsSecret } from ".././.gen/providers/github/actions-secret";
+import { Repository } from ".././.gen/providers/github/repository";
+import { GithubProvider } from ".././.gen/providers/github/provider";
 import { Construct } from "constructs";
 
 export interface GitHubProps {

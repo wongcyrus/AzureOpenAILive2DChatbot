@@ -1,7 +1,7 @@
 
-import { CognitiveAccount } from "@cdktf/provider-azurerm/lib/cognitive-account";
-import { CognitiveDeployment } from "@cdktf/provider-azurerm/lib/cognitive-deployment";
-import { ResourceGroup } from "@cdktf/provider-azurerm/lib/resource-group";
+import { CognitiveAccount } from ".././.gen/providers/azurerm/cognitive-account";
+import { CognitiveDeployment } from ".././.gen/providers/azurerm/cognitive-deployment";
+import { ResourceGroup } from ".././.gen/providers/azurerm/resource-group";
 import { Construct } from "constructs";
 
 export interface CognitiveAccountProps {
@@ -55,6 +55,7 @@ export class CognitiveAccountConstruct extends Construct {
         },
         scale: {
           type: "Standard"
+
         }
       });
       this.openAiCognitiveDeployments.push(openaModel);

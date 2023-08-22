@@ -1,8 +1,8 @@
-import { ResourceGroup } from "@cdktf/provider-azurerm/lib/resource-group";
-import { StorageAccount } from "@cdktf/provider-azurerm/lib/storage-account";
-import { StorageContainer } from "@cdktf/provider-azurerm/lib/storage-container";
-import { StorageManagementPolicy } from "@cdktf/provider-azurerm/lib/storage-management-policy";
-import { StorageTable } from "@cdktf/provider-azurerm/lib/storage-table";
+import { ResourceGroup } from ".././.gen/providers/azurerm/resource-group";
+import { StorageAccount } from ".././.gen/providers/azurerm/storage-account";
+import { StorageContainer } from ".././.gen/providers/azurerm/storage-container";
+import { StorageManagementPolicy } from ".././.gen/providers/azurerm/storage-management-policy";
+import { StorageTable } from ".././.gen/providers/azurerm/storage-table";
 import { Construct } from "constructs";
 
 export interface ChatStorageAccountProps {
