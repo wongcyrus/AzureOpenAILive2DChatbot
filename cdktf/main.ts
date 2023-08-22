@@ -34,7 +34,7 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
     });
 
     const repository = "AzureOpenAILive2DChatbotCICD";
-    let uniquePrefix = "ive2324";
+    let uniquePrefix = "ive2023";
     const region = "eastasia";
 
 
@@ -110,7 +110,6 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
     new TerraformOutput(this, "ttsEndpoint", {
       value: cognitiveAccountConstruct.ttsCognitiveAccount.endpoint,
     });
-
   }
 }
 

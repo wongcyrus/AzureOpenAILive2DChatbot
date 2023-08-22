@@ -1,0 +1,3 @@
+PartitionKey,RowKey,Name,Name@type,StudentId,StudentId@type,Role,Role@type
+123456789@stu.vtc.edu.hk,123456789@stu.vtc.edu.hk,Student Name,String,210023493,Int32,,
+teacher@stu.vtc.edu.hk,teacher@stu.vtc.edu.hk,Teacher Name,String,3,Int32,Teacher,String

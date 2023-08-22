@@ -30,7 +30,7 @@ For Cantonese
 4. Run ```./deploy.sh```
 5. After the deployment completed, you will have a new repo uniquePrefix+"AzureOpenAILive2DChatbotCICD".
 6. Rerun the failed GitHub Actions.
-7. Open Microsoft Azure Storage Explore and update users table. Both PartitionKey and RowKey are the email.
+7. Open Microsoft Azure Storage Explore and update users table. Both PartitionKey and RowKey are the email, please follow sample_data for batch import.
 
 > Deployment of cognitiveAccount/openAiCognitiveAccount may timeout and you may need to re-run the deployment after the creation completed.
 
