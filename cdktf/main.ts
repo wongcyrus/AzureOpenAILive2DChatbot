@@ -1,19 +1,19 @@
 import { Construct } from "constructs";
 import { App, TerraformOutput, TerraformStack } from "cdktf";
-import { AzurermProvider } from "@cdktf/provider-azurerm/lib/provider";
-import { ResourceGroup } from "@cdktf/provider-azurerm/lib/resource-group";
+import { AzurermProvider } from "./.gen/providers/azurerm/provider";
+import { ResourceGroup } from "./.gen/providers/azurerm/resource-group";
 
-import { AzureadProvider } from "@cdktf/provider-azuread/lib/provider";
+import { AzureadProvider } from "./.gen/providers/azuread/provider";
 import { AzapiProvider } from "./.gen/providers/azapi/provider";
 
 import { ChatStorageAccountConstruct } from "./components/chat-storage-account";
 import { CognitiveAccountConstruct } from "./components/cognitive";
 import { StaticSiteConstruct } from "./components/static-site";
-import { GithubProvider } from "@cdktf/provider-github/lib/provider";
+import { GithubProvider } from "./.gen/providers/github/provider";
 import { GitHubConstruct } from "./components/github";
 
 import * as dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({ path: __dirname + '/.env',override: true });
 
 class AzureOpenAiLive2DChatbotStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -30,11 +30,11 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
     new AzapiProvider(this, "azapi", {});
 
     const githubProvider = new GithubProvider(this, "GitHubProvider", {
-      token: process.env.GITHUB_TOKEN_DEPLOYMENT,
+      token: process.env.GITHUB_TOKEN,
     });
 
     const repository = "AzureOpenAILive2DChatbotCICD";
-    let uniquePrefix = "ivemvp";
+    let uniquePrefix = "ive2023";
     const region = "eastasia";
 
 
@@ -110,7 +110,6 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
     new TerraformOutput(this, "ttsEndpoint", {
       value: cognitiveAccountConstruct.ttsCognitiveAccount.endpoint,
     });
-
   }
 }
 

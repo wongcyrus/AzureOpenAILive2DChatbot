@@ -1,12 +1,12 @@
 import { Construct } from "constructs";
 
-import { ApplicationInsights } from "@cdktf/provider-azurerm/lib/application-insights";
-import { StaticSite } from "@cdktf/provider-azurerm/lib/static-site";
+import { ApplicationInsights } from ".././.gen/providers/azurerm/application-insights";
+import { StaticSite } from ".././.gen/providers/azurerm/static-site";
 import { ResourceAction } from "../.gen/providers/azapi/resource-action";
 import { Fn } from "cdktf";
-import { Application } from "@cdktf/provider-azuread/lib/application";
-import { ApplicationPassword } from "@cdktf/provider-azuread/lib/application-password";
-import { ResourceGroup } from "@cdktf/provider-azurerm/lib/resource-group";
+import { Application } from ".././.gen/providers/azuread/application";
+import { ApplicationPassword } from ".././.gen/providers/azuread/application-password";
+import { ResourceGroup } from ".././.gen/providers/azurerm/resource-group";
 
 export interface StaticSiteConstructProps {
   chatStorageAccountConnectionString: string;

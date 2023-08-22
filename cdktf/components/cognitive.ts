@@ -1,7 +1,7 @@
 
-import { CognitiveAccount } from "@cdktf/provider-azurerm/lib/cognitive-account";
-import { CognitiveDeployment } from "@cdktf/provider-azurerm/lib/cognitive-deployment";
-import { ResourceGroup } from "@cdktf/provider-azurerm/lib/resource-group";
+import { CognitiveAccount } from ".././.gen/providers/azurerm/cognitive-account";
+import { CognitiveDeployment } from ".././.gen/providers/azurerm/cognitive-deployment";
+import { ResourceGroup } from ".././.gen/providers/azurerm/resource-group";
 import { Construct } from "constructs";
 
 export interface CognitiveAccountProps {
@@ -35,12 +35,10 @@ export class CognitiveAccountConstruct extends Construct {
     this.openAiCognitiveDeployments = [];
 
     const models = [
-      { name: "text-ada-001", version: "1" }, { name: "text-curie-001", version: "1" },
-      { name: "text-davinci-002", version: "1" }, { name: "text-davinci-003", version: "1" },
-      { name: "code-davinci-002", version: "1" },
-      { name: "gpt-35-turbo", version: "0301" }, { name: "gpt-4", version: "0314" }, { name: "gpt-4-32k", version: "0314" },
-      { name: "text-similarity-ada-001", version: "1" },
-      { name: "text-similarity-curie-001", version: "1" },
+      { name: "gpt-35-turbo", version: "0613" },
+      { name: "gpt-35-turbo-16k", version: "0613" },
+      { name: "gpt-4", version: "0613" },
+      { name: "gpt-4-32k", version: "0613" },
       { name: "text-embedding-ada-002", version: "2" },
     ]
 
@@ -54,7 +52,8 @@ export class CognitiveAccountConstruct extends Construct {
           version: model.version,
         },
         scale: {
-          type: "Standard"
+          type: "Standard",
+          capacity: 5,
         }
       });
       this.openAiCognitiveDeployments.push(openaModel);

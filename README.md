@@ -25,11 +25,12 @@ For Cantonese
 
 ## Deployment
 1. Login Azure CLI ```az login --use-device-code```
-2. Open a terminal ```export GITHUB_TOKEN_DEPLOYMENT=xxxxx``` with your GitHub Token. Or, create .env from .env.template .
-3. Run ```./deploy.sh```
-4. After the deployment completed, you will have a new repo uniquePrefix+"AzureOpenAILive2DChatbotCICD".
-5. Rerun the failed GitHub Actions.
-6. Open Microsoft Azure Storage Explore and update users table. Both PartitionKey and RowKey are the email.
+2. Create Classic GITHUB TOKEN with permission delete_repo, repo
+3. Open a terminal ```export GITHUB_TOKEN=xxxxx``` with your GitHub Token. Or, create .env from .env.template .
+4. Run ```./deploy.sh```
+5. After the deployment completed, you will have a new repo uniquePrefix+"AzureOpenAILive2DChatbotCICD".
+6. Rerun the failed GitHub Actions.
+7. Open Microsoft Azure Storage Explore and update users table. Both PartitionKey and RowKey are the email, please follow sample_data for batch import.
 
 > Deployment of cognitiveAccount/openAiCognitiveAccount may timeout and you may need to re-run the deployment after the creation completed.
 
