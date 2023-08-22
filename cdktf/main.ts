@@ -13,7 +13,7 @@ import { GithubProvider } from "./.gen/providers/github/provider";
 import { GitHubConstruct } from "./components/github";
 
 import * as dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({ path: __dirname + '/.env',override: true });
 
 class AzureOpenAiLive2DChatbotStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -30,11 +30,11 @@ class AzureOpenAiLive2DChatbotStack extends TerraformStack {
     new AzapiProvider(this, "azapi", {});
 
     const githubProvider = new GithubProvider(this, "GitHubProvider", {
-      token: process.env.GITHUB_TOKEN_DEPLOYMENT,
+      token: process.env.GITHUB_TOKEN,
     });
 
     const repository = "AzureOpenAILive2DChatbotCICD";
-    let uniquePrefix = "ivemvp";
+    let uniquePrefix = "ive2324";
     const region = "eastasia";
 
 
