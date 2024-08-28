@@ -9,7 +9,7 @@ const classesTableClient = TableClient.fromConnectionString(chatStorageAccountCo
 const sessionsTableClient = TableClient.fromConnectionString(chatStorageAccountConnectionString, "sessions");
 
 const blobServiceClient = BlobServiceClient.fromConnectionString(chatStorageAccountConnectionString);
-const containerClient = blobServiceClient.getContainerClient("screen");
+const containerClient = blobServiceClient.getContainerClient("screens");
 
 
 module.exports = async function (context, req) {
@@ -22,21 +22,31 @@ module.exports = async function (context, req) {
 
     const classId = req.query.classId;
 
-    let continuationToken = null;
-    let pageEntities = undefined;
-    let entities = [];
-    do {
-        const page = await classesTableClient.listEntities({
-            queryOptions: {
-                filter: `PartitionKey eq '${classId}'`
-            }
-        }).byPage({ maxPageSize: 100, continuationToken: continuationToken }).next();
-        pageEntities = page.value;
-        if (!pageEntities) break;
-        continuationToken = pageEntities.continuationToken;
-        entities = entities.concat(pageEntities);
+    if (!classId) {
+        setJson(context, []);
+        return;
     }
-    while (continuationToken !== undefined);
+   
+    const classIds = classId.split(",");
+    const r = await Promise.all(classIds.map(async classId => {
+        let continuationToken = null;
+        let pageEntities = undefined;
+        let entities = [];
+        do {
+            const page = await classesTableClient.listEntities({
+                queryOptions: {
+                    filter: `PartitionKey eq '${classId}'`
+                }
+            }).byPage({ maxPageSize: 100, continuationToken: continuationToken }).next();
+            pageEntities = page.value;
+            if (!pageEntities) break;
+            continuationToken = pageEntities.continuationToken;
+            entities = entities.concat(pageEntities);
+        }
+        while (continuationToken !== undefined);
+        return entities
+    }));
+    const entities = r.flat();
 
     for (let i = 0; i < entities.length; i++) {
         const entity = entities[i];

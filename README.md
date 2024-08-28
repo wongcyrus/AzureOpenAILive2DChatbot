@@ -47,6 +47,10 @@ You need to update the /workspaces/AzureOpenAILive2DChatbot/cdktf/main.ts
 1. Delete "AzureOpenAILive2DChatbotCICD" repo yourself.
 2. Run ```./undeploy.sh```
 
+## Update Website
+
+Client side code is in AzureOpenAILive2DChatbotDemo Repo and "website" folder is just for refernce and keep all codes in one repro.
+
 
 ## License
 

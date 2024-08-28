@@ -34,7 +34,9 @@ module.exports = async function (context, req) {
                 {
                     "message": { "content": "Used up your daily limit. Please try again tomorrow." }
                 }
-            ]
+            ],
+            "cost": 0,
+            "left": 0
         });
         return;
     }
@@ -56,6 +58,10 @@ module.exports = async function (context, req) {
 
     try {
         let openaiurl;
+
+        const lastMessage = body.prompt[body.prompt.length - 1];
+        const question = lastMessage.content;
+
         if (model.startsWith('gpt-')) {
             const apiVersion = "2023-03-15-preview";
             openaiurl = `https://eastus.api.cognitive.microsoft.com/openai/deployments/${model}/chat/completions?api-version=${apiVersion}`;
@@ -68,26 +74,20 @@ module.exports = async function (context, req) {
         } else {
             const apiVersion = "2022-12-01";
             openaiurl = `https://eastus.api.cognitive.microsoft.com/openai/deployments/${model}/completions?api-version=${apiVersion}`;
-            body.prompt = body['prompt'].map(c => c.content).join('');
+            body.prompt = body['prompt'].map(c => c.role + ":" + c.content).join('\n\n');
         }
         context.log(body);
-        const headers = {
-            'Content-Type': 'application/json',
-            'api-key': openaipikey,
-        }
+
         const res = await axios.post(openaiurl, JSON.stringify(body), {
-            headers: headers
+            headers: {
+                'Content-Type': 'application/json',
+                'api-key': openaipikey,
+            }
         });
         context.log(res.data);
 
-        let question;
-        if (model.startsWith('gpt-')) {
-            const lastMessage = body.messages[body.messages.length - 1];
-            question = lastMessage.content;
-        } else {
+        if (!model.startsWith('gpt-')) {
             res.data.choices[0]["message"] = { content: res.data.choices[0].text };
-            const lastMessage = body.prompt[body.prompt.length - 1];
-            question = lastMessage.content;
         }
 
         const now = new Date();
@@ -111,6 +111,7 @@ module.exports = async function (context, req) {
         };
         delete chatEntity['messages'];
         delete chatEntity['prompt'];
+        delete chatEntity['stop'];
 
         context.log(chatEntity);
         await chatHistoryTableClient.createEntity(chatEntity);
