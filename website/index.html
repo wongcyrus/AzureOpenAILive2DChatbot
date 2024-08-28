@@ -15,9 +15,9 @@
 
 
   <!--  Markdown     -->
-  <link href="https://cdn.staticfile.org/github-markdown-css/5.2.0/github-markdown-light.min.css" rel="stylesheet">
-  <link href="https://cdn.staticfile.org/highlight.js/11.7.0/styles/github.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.staticfile.org/KaTeX/0.16.4/katex.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.6.1/github-markdown.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/github.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
   <link rel="stylesheet" href="https://npm.elemecdn.com/markdown-it-texmath@1.0.0/css/texmath.css">
 </head>
 
@@ -85,14 +85,11 @@
                 <div class="form-group">
                   <label for="model">Model:</label>
                   <select name="model" id="model" class="form-control">
-                    <option value='text-ada-001'>text-ada-001</option>
-                    <option value='text-curie-001'>text-curie-001</option>
-                    <option value='text-davinci-002'>text-davinci-002</option>
-                    <option value='code-davinci-002'>code-davinci-002</option>
-                    <option value='text-davinci-003'>text-davinci-003</option>
                     <option value='gpt-35-turbo' selected="selected">gpt-35-turbo</option>
+                    <option value='gpt-35-turbo-16k'>gpt-35-turbo-16k</option>
                     <option value='gpt-4-32k'>gpt-4-32k</option>
                     <option value='gpt-4'>gpt-4</option>
+                    <option value='gpt-4o'>gpt-4o</option>
                   </select>
                 </div>
                 <div class="form-group">
@@ -277,7 +274,7 @@
                   <input type="range" id="best_of" name="best_of" min="1" max="20" value="1" step="1"
                     oninput="this.previousElementSibling.value = '(' + this.value +')'" class="form-control">
                 </div>
-               
+
               </form>
               <video id="shared-screen" style="height: 1px; width: 1px;" autoplay></video>
             </div>
@@ -310,9 +307,9 @@
   <script src="https://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js" crossorigin="anonymous"></script>
 
   <!--  Markdown     -->
-  <script src="https://cdn.staticfile.org/markdown-it/13.0.1/markdown-it.min.js"></script>
-  <script src="https://cdn.staticfile.org/highlight.js/11.7.0/highlight.min.js"></script>
-  <script src="https://cdn.staticfile.org/KaTeX/0.16.4/katex.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/13.0.1/markdown-it.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
   <script src="https://npm.elemecdn.com/markdown-it-texmath@1.0.0/texmath.js"></script>
 
 

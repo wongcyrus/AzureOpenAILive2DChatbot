@@ -35,11 +35,11 @@ export class CognitiveAccountConstruct extends Construct {
     this.openAiCognitiveDeployments = [];
 
     const models = [
-      { name: "gpt-35-turbo", version: "0613" },
+      { name: "gpt-35-turbo", version: "0301" },
       { name: "gpt-35-turbo-16k", version: "0613" },
       { name: "gpt-4", version: "0613" },
       { name: "gpt-4-32k", version: "0613" },
-      { name: "text-embedding-ada-002", version: "2" },
+      { name: "gpt-4o", version: "2024-05-13" }
     ]
 
     for (const model of models) {
