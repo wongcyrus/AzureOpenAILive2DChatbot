@@ -10,7 +10,7 @@ const ttsApiKey = process.env.ttsApiKey;
 const chatStorageAccountConnectionString = process.env.chatStorageAccountConnectionString;
 
 const blobServiceClient = BlobServiceClient.fromConnectionString(chatStorageAccountConnectionString);
-const containerClient = blobServiceClient.getContainerClient("voice");
+const containerClient = blobServiceClient.getContainerClient("voices");
 
 
 module.exports = async function (context, req) {

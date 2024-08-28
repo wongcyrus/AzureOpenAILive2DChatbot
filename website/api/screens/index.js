@@ -6,7 +6,7 @@ const { screenSharingMaxSize, screenSharingPerMinute } = require("../constants")
 const chatStorageAccountConnectionString = process.env.chatStorageAccountConnectionString;
 
 const blobServiceClient = BlobServiceClient.fromConnectionString(chatStorageAccountConnectionString);
-const containerClient = blobServiceClient.getContainerClient("screen");
+const containerClient = blobServiceClient.getContainerClient("screens");
 
 function getDateTimeStringAsFilename() {
     const now = new Date();
